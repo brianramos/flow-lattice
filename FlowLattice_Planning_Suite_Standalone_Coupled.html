@@ -31,7 +31,7 @@ button.link-button{width:auto;margin-top:10px;background:transparent;color:var(-
 </div>
 <div class="status-pill" id="runtime-status">single-file · offline · no server</div>
 </header>
-<div class="offline-note" style="padding:8px 22px 0">Standalone coupled edition: all parsers, algebraic quotients, solvers, samples, workers, and benchmark artifacts are embedded in this file.</div>
+<div class="offline-note" style="padding:8px 22px 0">Standalone coupled edition (phase-I fixed): all parsers, algebraic quotients, solvers, samples, workers, and benchmark artifacts are embedded in this file.</div>
 <main>
 <aside class="sidebar">
 <section class="panel">
@@ -139,7 +139,7 @@ button.link-button{width:auto;margin-top:10px;background:transparent;color:var(-
 </section>
 </section>
 </main>
-<footer>FlowLattice coupled algebraic planning suite · one standalone file · all parsing and solving occurs locally in this tab</footer>
+<footer>FlowLattice coupled algebraic planning suite · phase-I infeasibility certificates · one standalone file · all parsing and solving occurs locally in this tab</footer>
 <script data-filename="flowlattice_core.js" id="fl-src-0" type="text/plain">
 
 (function (root, factory) {
@@ -1339,10 +1339,14 @@ button.link-button{width:auto;margin-top:10px;background:transparent;color:var(-
 
   class EventPathPlanner {
     constructor(comp, options = {}) {
-      this.c = comp; this.options = options; this.vars = []; this.pathSignatures = new Set(); this.history = [];
-      let maxCost = 1; for (const g of comp.profileGroups) for (const c of g.edgeCosts) maxCost = Math.max(maxCost, Math.abs(c));
-      this.artificialCost = options.artificialCost || Math.max(1e6, maxCost * Math.max(1000, comp.N * 100));
-      this._addFixed(); this._seedPaths(); this._addArtificials();
+      this.c = comp;
+      this.options = options;
+      this.vars = [];
+      this.pathSignatures = new Set();
+      this.history = [];
+      this._addFixed();
+      this._seedPaths();
+      this._addArtificials();
     }
     row(ki, node) { return this.c.balanceIndex.get(`${ki}|${node}`); }
     _addFixed() {
@@ -1350,17 +1354,26 @@ button.link-button{width:auto;margin-top:10px;background:transparent;color:var(-
     }
     _appendPath(ki, source, target, path, uses, base, rcBirth = null) {
       if (source === target || !path.length) return false;
-      const sig = `${ki}|${path.join(',')}`; if (this.pathSignatures.has(sig)) return false;
-      this.vars.push({ name: `path:${this.c.ids[ki]}:${source}->${target}:${this.vars.length}`, kind: 'path', cost: base, lb: 0, ub: INF,
-        eq: new Map([[this.row(ki, source), -1], [this.row(ki, target), 1]]), uses, ki, pathEdges: path, artificial: false,
-        meta: { source, target, reduced_cost_at_birth: rcBirth } });
-      this.pathSignatures.add(sig); return true;
+      const sig = `${ki}|${path.join(',')}`;
+      if (this.pathSignatures.has(sig)) return false;
+      this.vars.push({
+        name: `path:${this.c.ids[ki]}:${source}->${target}:${this.vars.length}`,
+        kind: 'path', cost: base, lb: 0, ub: INF,
+        eq: new Map([[this.row(ki, source), -1], [this.row(ki, target), 1]]),
+        uses, ki, pathEdges: path, artificial: false,
+        meta: { source, target, reduced_cost_at_birth: rcBirth }
+      });
+      this.pathSignatures.add(sig);
+      return true;
     }
     _dijkstra(profile, source, adjusted = null) {
-      const dist = new Float64Array(this.c.N); dist.fill(INF); const pred = new Int32Array(this.c.N); pred.fill(-1);
-      dist[source] = 0; const heap = new BinaryHeap((a,b)=>a[0]-b[0]); heap.push([0,source]);
+      const dist = new Float64Array(this.c.N); dist.fill(INF);
+      const pred = new Int32Array(this.c.N); pred.fill(-1);
+      dist[source] = 0;
+      const heap = new BinaryHeap((a,b)=>a[0]-b[0]); heap.push([0,source]);
       while (heap.size) {
-        const [du,u] = heap.pop(); if (du > dist[u] + 1e-12) continue;
+        const [du,u] = heap.pop();
+        if (du > dist[u] + 1e-12) continue;
         for (const a of this.c.graph.out[u]) {
           const eid = a.eid, w = adjusted ? adjusted[eid] : profile.edgeCosts[eid], nd = du + w;
           if (nd < dist[a.v] - 1e-12) { dist[a.v] = nd; pred[a.v] = eid; heap.push([nd,a.v]); }
@@ -1370,12 +1383,18 @@ button.link-button{width:auto;margin-top:10px;background:transparent;color:var(-
     }
     _path(pred, source, target) {
       const rev = []; let cur = target, guard = 0;
-      while (cur !== source && guard++ <= this.c.N) { const eid = pred[cur]; if (eid < 0) return []; rev.push(eid); cur = this.c.graph.arcs[eid].u; }
+      while (cur !== source && guard++ <= this.c.N) {
+        const eid = pred[cur]; if (eid < 0) return [];
+        rev.push(eid); cur = this.c.graph.arcs[eid].u;
+      }
       return cur === source ? rev.reverse() : [];
     }
     _pathUses(profile, path) {
       const uses = new Map(); let base = 0;
-      for (const eid of path) { base += profile.edgeCosts[eid]; for (const [r,q] of profile.edgeUses[eid]) uses.set(r, (uses.get(r)||0)+q); }
+      for (const eid of path) {
+        base += profile.edgeCosts[eid];
+        for (const [r,q] of profile.edgeUses[eid]) uses.set(r, (uses.get(r)||0)+q);
+      }
       return { uses, base };
     }
     _seedPaths() {
@@ -1385,74 +1404,276 @@ button.link-button{width:auto;margin-top:10px;background:transparent;color:var(-
         const profile = this.c.profileGroups[this.c.commodityProfile[ki]];
         for (const sli of sources) {
           const src = nodes[sli], d = this._dijkstra(profile, src);
-          for (const tli of sinks) { const tgt = nodes[tli]; if (src === tgt || !Number.isFinite(d.dist[tgt])) continue; const path = this._path(d.pred, src, tgt); if (!path.length) continue; const pu = this._pathUses(profile,path); this._appendPath(ki,src,tgt,path,pu.uses,pu.base); }
+          for (const tli of sinks) {
+            const tgt = nodes[tli];
+            if (src === tgt || !Number.isFinite(d.dist[tgt])) continue;
+            const path = this._path(d.pred, src, tgt); if (!path.length) continue;
+            const pu = this._pathUses(profile,path);
+            this._appendPath(ki,src,tgt,path,pu.uses,pu.base);
+          }
         }
       }
     }
     _addArtificials() {
       for (let i = 0; i < this.c.balancePairs.length; i++) {
         const [ki,n] = this.c.balancePairs[i];
-        this.vars.push({ name:`art+:${ki}:${n}`,kind:'artificial',cost:this.artificialCost,lb:0,ub:INF,eq:new Map([[i,1]]),uses:new Map(),artificial:true,pathEdges:[] });
-        this.vars.push({ name:`art-:${ki}:${n}`,kind:'artificial',cost:this.artificialCost,lb:0,ub:INF,eq:new Map([[i,-1]]),uses:new Map(),artificial:true,pathEdges:[] });
+        this.vars.push({ name:`art+:${ki}:${n}`,kind:'artificial',cost:0,lb:0,ub:INF,eq:new Map([[i,1]]),uses:new Map(),artificial:true,pathEdges:[] });
+        this.vars.push({ name:`art-:${ki}:${n}`,kind:'artificial',cost:0,lb:0,ub:INF,eq:new Map([[i,-1]]),uses:new Map(),artificial:true,pathEdges:[] });
       }
     }
-    _solveMaster() {
+
+    /**
+     * Solve either the true phase-I master (minimize L1 artificial balance)
+     * or phase II (original cost with artificial columns removed entirely).
+     */
+    _solveMaster(phase = 'phase2') {
+      const phaseOne = phase === 'phase1';
       const B = this.c.balancePairs.length, R = this.c.resources.length;
-      const bounded = []; for (let j=0;j<this.vars.length;j++) if (Number.isFinite(this.vars[j].ub)) bounded.push(j);
-      const M = this.vars.length, rows = B + R + bounded.length, cols = M + R + bounded.length;
+      const active = [];
+      for (let j = 0; j < this.vars.length; j++) if (phaseOne || !this.vars[j].artificial) active.push(j);
+      const bounded = [];
+      for (let p = 0; p < active.length; p++) if (Number.isFinite(this.vars[active[p]].ub)) bounded.push(p);
+      const M = active.length, rows = B + R + bounded.length, cols = M + R + bounded.length;
       const cells = rows * cols, maxCells = this.options.maxDenseCells || 8e6;
-      if (cells > maxCells) return { status:'too_large', reason:`reduced coupled master would allocate ${cells.toLocaleString()} coefficients`, rows, columns:cols };
-      const A = Array.from({length:rows},()=>new Float64Array(cols)), b = new Float64Array(rows), c = new Float64Array(cols);
+      if (cells > maxCells) return { status:'too_large', phase, reason:`reduced coupled master would allocate ${cells.toLocaleString()} coefficients`, rows, columns:cols };
+      const A = Array.from({length:rows},()=>new Float64Array(cols));
+      const b = new Float64Array(rows), c = new Float64Array(cols);
       for (let i=0;i<B;i++) b[i]=this.c.bEq[i];
       for (let r=0;r<R;r++) { b[B+r]=this.c.resources[r].cap; A[B+r][M+r]=1; }
-      for (let j=0;j<M;j++) {
-        const v=this.vars[j]; c[j]=v.cost;
-        for (const [i,q] of v.eq) A[i][j]=q;
-        for (const [r,q] of v.uses || []) A[B+r][j]=q;
+      for (let p=0;p<M;p++) {
+        const j=active[p], v=this.vars[j];
+        c[p]=phaseOne ? (v.artificial ? 1 : 0) : v.cost;
+        for (const [i,q] of v.eq) A[i][p]=q;
+        for (const [r,q] of v.uses || []) A[B+r][p]=q;
       }
-      for (let u=0;u<bounded.length;u++) { const j=bounded[u], row=B+R+u, slack=M+R+u; A[row][j]=1; A[row][slack]=1; b[row]=this.vars[j].ub; }
-      const r=simplexEquality(A.map(x=>Array.from(x)),Array.from(b),Array.from(c),this.options.maxIter||100000);
-      return Object.assign(r,{masterCount:M,balanceRows:B,resourceRows:R,boundedRows:bounded.length,rows,columns:cols});
+      for (let u=0;u<bounded.length;u++) {
+        const p=bounded[u], j=active[p], row=B+R+u, slack=M+R+u;
+        A[row][p]=1; A[row][slack]=1; b[row]=this.vars[j].ub;
+      }
+      const raw=simplexEquality(A,Array.from(b),Array.from(c),this.options.maxIter||100000);
+      if (raw.status !== 'optimal') return Object.assign(raw,{phase,activeIndices:active,boundedVarIndices:bounded.map(p=>active[p]),masterCount:M,balanceRows:B,resourceRows:R,boundedRows:bounded.length,rows,columns:cols});
+      const fullX = new Array(this.vars.length).fill(0);
+      for (let p=0;p<M;p++) fullX[active[p]]=raw.x[p]||0;
+      return Object.assign(raw,{x:fullX,phase,activeIndices:active,boundedVarIndices:bounded.map(p=>active[p]),masterCount:M,balanceRows:B,resourceRows:R,boundedRows:bounded.length,rows,columns:cols});
     }
-    _priceOne(ki,y,z,maxCols) {
+
+    _priceOne(ki,y,z,maxCols,phase='phase2') {
       const nodes=this.c.eventNodes[ki]; if(nodes.length<2)return[];
       const profile=this.c.profileGroups[this.c.commodityProfile[ki]], E=this.c.graph.arcs.length;
-      let activeMask=0n; for(let r=0;r<z.length;r++)if(Math.abs(z[r])>1e-10)activeMask|=1n<<BigInt(r);
-      const adjusted=new Float64Array(E);
+      let activeMask=0n;
+      for(let r=0;r<z.length;r++)if(Math.abs(z[r])>1e-10)activeMask|=1n<<BigInt(r);
+      const adjusted=new Float64Array(E), phaseOne=phase==='phase1';
       for(let eid=0;eid<E;eid++){
-        let w=profile.edgeCosts[eid];
+        let w=phaseOne ? 0 : profile.edgeCosts[eid];
         if(profile.edgeResourceMasks[eid]&activeMask)for(const [r,q] of profile.edgeUses[eid])w-=z[r]*q;
-        if(w<-1e-7)throw new Error('negative reduced edge cost; resource-dual sign invariant failed'); adjusted[eid]=Math.max(0,w);
+        // Resource-row slacks imply z <= 0. Tiny negative values are numerical noise.
+        if(w < -1e-7) throw new Error(`negative reduced edge cost ${w}; resource-dual sign invariant failed in ${phase}`);
+        adjusted[eid]=Math.max(0,w);
       }
-      const dist=new Float64Array(this.c.N); dist.fill(INF); const pred=new Int32Array(this.c.N); pred.fill(-1); const origin=new Int32Array(this.c.N); origin.fill(-1);
+      const dist=new Float64Array(this.c.N); dist.fill(INF);
+      const pred=new Int32Array(this.c.N); pred.fill(-1);
+      const origin=new Int32Array(this.c.N); origin.fill(-1);
       const heap=new BinaryHeap((a,b)=>a[0]-b[0]);
       for(const n of nodes){const d0=y[this.row(ki,n)];if(d0<dist[n]-1e-12){dist[n]=d0;origin[n]=n;heap.push([d0,n]);}}
-      while(heap.size){const [du,u]=heap.pop();if(du>dist[u]+1e-12)continue;for(const a of this.c.graph.out[u]){const eid=a.eid,nd=du+adjusted[eid];if(nd<dist[a.v]-1e-12){dist[a.v]=nd;pred[a.v]=eid;origin[a.v]=origin[u];heap.push([nd,a.v]);}}}
+      while(heap.size){
+        const [du,u]=heap.pop();if(du>dist[u]+1e-12)continue;
+        for(const a of this.c.graph.out[u]){
+          const eid=a.eid,nd=du+adjusted[eid];
+          if(nd<dist[a.v]-1e-12){dist[a.v]=nd;pred[a.v]=eid;origin[a.v]=origin[u];heap.push([nd,a.v]);}
+        }
+      }
       const cand=[];
-      for(const tgt of nodes){const src=origin[tgt];if(src<0||src===tgt)continue;const rc=dist[tgt]-y[this.row(ki,tgt)];if(rc>=-1e-7)continue;const path=this._path(pred,src,tgt);if(!path.length)continue;const sig=`${ki}|${path.join(',')}`;if(this.pathSignatures.has(sig))continue;const pu=this._pathUses(profile,path);cand.push({rc,src,tgt,path,...pu});}
-      cand.sort((a,b)=>a.rc-b.rc);return cand.slice(0,maxCols);
+      for(const tgt of nodes){
+        const src=origin[tgt];if(src<0||src===tgt)continue;
+        const rc=dist[tgt]-y[this.row(ki,tgt)];if(rc>=-1e-7)continue;
+        const path=this._path(pred,src,tgt);if(!path.length)continue;
+        const sig=`${ki}|${path.join(',')}`;if(this.pathSignatures.has(sig))continue;
+        const pu=this._pathUses(profile,path);cand.push({rc,src,tgt,path,...pu});
+      }
+      cand.sort((a,b)=>a.rc-b.rc);
+      return Number.isFinite(maxCols) ? cand.slice(0,maxCols) : cand;
     }
-    solve() {
-      const t0=now(), maxIterations=this.options.maxIterations||100, maxCols=this.options.maxColumnsPerCommodity||2, tol=this.options.tolerance||1e-7;
+
+    _runColumnGeneration(phase,maxIterations,maxCols,tol) {
       let last=null;
       for(let it=0;it<maxIterations;it++){
-        const r=this._solveMaster();if(r.status!=='optimal')return Object.assign(r,{method:'coupled-algebraic-bitset',seconds:(now()-t0)/1000,history:this.history});last=r;
+        const r=this._solveMaster(phase);
+        if(r.status!=='optimal')return{status:r.status,phase,master:r,complete:false};
+        last=r;
         const y=r.rowDual.slice(0,r.balanceRows),z=r.rowDual.slice(r.balanceRows,r.balanceRows+r.resourceRows);
         let added=0,best=0;
-        for(let ki=0;ki<this.c.commodities.length;ki++)for(const p of this._priceOne(ki,y,z,maxCols)){if(p.rc>=-tol)continue;best=Math.min(best,p.rc);if(this._appendPath(ki,p.src,p.tgt,p.path,p.uses,p.base,p.rc))added++;}
-        this.history.push({iteration:it,objective:r.obj,columns:this.vars.length,added,best_reduced_cost:best});if(!added)break;
-        if(it===maxIterations-1)return{status:'iteration_limit',method:'coupled-algebraic-bitset',history:this.history,seconds:(now()-t0)/1000};
+        for(let ki=0;ki<this.c.commodities.length;ki++){
+          for(const p of this._priceOne(ki,y,z,maxCols,phase)){
+            if(p.rc>=-tol)continue;
+            best=Math.min(best,p.rc);
+            if(this._appendPath(ki,p.src,p.tgt,p.path,p.uses,p.base,p.rc))added++;
+          }
+        }
+        let artificial=0;
+        if(phase==='phase1')for(let j=0;j<this.vars.length;j++)if(this.vars[j].artificial)artificial+=r.x[j]||0;
+        this.history.push({phase,iteration:it,objective:r.obj,artificial,columns:this.vars.length,added,best_reduced_cost:best});
+        if(!added)return{status:'optimal',phase,master:r,complete:true};
       }
-      if(this.history.length&&this.history[this.history.length-1].added)last=this._solveMaster();
-      if(!last||last.status!=='optimal')return Object.assign(last||{status:'solver_error'},{method:'coupled-algebraic-bitset',seconds:(now()-t0)/1000});
-      const x=last.x.slice(0,this.vars.length);let art=0,objective=0;for(let j=0;j<this.vars.length;j++){objective+=this.vars[j].cost*x[j];if(this.vars[j].artificial)art+=x[j];}
-      objective-=this.artificialCost*art;
-      if(art>1e-6){const certificate=[];for(let j=0;j<this.vars.length;j++)if(this.vars[j].artificial&&x[j]>1e-7){const [ri,sign]=[...this.vars[j].eq][0],pair=this.c.balancePairs[ri];certificate.push({commodity:this.c.ids[pair[0]],node:pair[1],sign,qty:x[j]});}return{status:'infeasible',method:'coupled-algebraic-bitset',objective,artificial:art,certificate:certificate.slice(0,100),history:this.history,seconds:(now()-t0)/1000};}
+      const final=this._solveMaster(phase);
+      return{status:'iteration_limit',phase,master:final.status==='optimal'?final:last,complete:false};
+    }
+
+    _masterFarkasCertificate(r,phase) {
+      const f=r && r.farkas;
+      if(!f)return{type:'master-infeasibility',phase,message:'The restricted master equality system is infeasible.'};
+      const B=this.c.balancePairs.length,R=this.c.resources.length;
+      const rows=[];
+      for(let i=0;i<f.length;i++){
+        if(Math.abs(f[i])<=1e-8)continue;
+        if(i<B){const[ki,n]=this.c.balancePairs[i];rows.push({kind:'balance',commodity:this.c.ids[ki],node:n,facility:n%this.c.F,period:Math.floor(n/this.c.F),multiplier:f[i]});}
+        else if(i<B+R)rows.push({kind:'resource',resource:this.c.resources[i-B].key,multiplier:f[i]});
+        else rows.push({kind:'upper-bound',index:i-B-R,multiplier:f[i]});
+      }
+      return{type:'restricted-master-farkas',phase,rows:rows.slice(0,200)};
+    }
+
+    _phaseOneCertificate(r,artificial,tol) {
+      const B=r.balanceRows,R=r.resourceRows,U=r.boundedRows;
+      const y=r.rowDual.slice(0,B),z=r.rowDual.slice(B,B+R),u=r.rowDual.slice(B+R,B+R+U);
+      let dualObjective=0;
+      for(let i=0;i<B;i++)dualObjective+=this.c.bEq[i]*y[i];
+      for(let i=0;i<R;i++)dualObjective+=this.c.resources[i].cap*z[i];
+      for(let i=0;i<U;i++)dualObjective+=this.vars[r.boundedVarIndices[i]].ub*u[i];
+      const boundDual=new Map(r.boundedVarIndices.map((j,i)=>[j,u[i]]));
+      let minExistingReducedCost=INF;
+      for(let j=0;j<this.vars.length;j++){
+        const v=this.vars[j];let rc=v.artificial?1:0;
+        for(const[i,q]of v.eq)rc-=q*y[i];
+        for(const[ri,q]of v.uses||[])rc-=q*z[ri];
+        if(boundDual.has(j))rc-=boundDual.get(j);
+        minExistingReducedCost=Math.min(minExistingReducedCost,rc);
+      }
+      minExistingReducedCost=Math.min(minExistingReducedCost,...Array.from(z,x=>-x),...Array.from(u,x=>-x));
+      const unmet=[];
+      for(let j=0;j<this.vars.length;j++)if(this.vars[j].artificial&&(r.x[j]||0)>tol){
+        const[ri,sign]=[...this.vars[j].eq][0],pair=this.c.balancePairs[ri],n=pair[1];
+        unmet.push({commodity:this.c.ids[pair[0]],node:n,facility:n%this.c.F,period:Math.floor(n/this.c.F),direction:sign>0?'shortfall':'surplus',quantity:r.x[j],rhs:this.c.bEq[ri],dual:y[ri]});
+      }
+      const balances=[];
+      for(let i=0;i<B;i++)if(Math.abs(y[i])>1e-8){const[ki,n]=this.c.balancePairs[i];balances.push({commodity:this.c.ids[ki],node:n,facility:n%this.c.F,period:Math.floor(n/this.c.F),multiplier:y[i]});}
+      const resources=[];
+      for(let i=0;i<R;i++)if(Math.abs(z[i])>1e-8)resources.push({resource:this.c.resources[i].key,cap:this.c.resources[i].cap,multiplier:z[i]});
+      const bounds=[];
+      for(let i=0;i<U;i++)if(Math.abs(u[i])>1e-8)bounds.push({variable:this.vars[r.boundedVarIndices[i]].name,ub:this.vars[r.boundedVarIndices[i]].ub,multiplier:u[i]});
+      return{
+        type:'phase-I-dual-infeasibility',
+        statement:'The minimum total balance violation is positive after complete path pricing; therefore the original coupled model is infeasible.',
+        minimumViolation:artificial,
+        dualObjective,
+        dualityGap:Math.abs(artificial-dualObjective),
+        pricingComplete:true,
+        minimumExistingColumnReducedCost:minExistingReducedCost,
+        unmetBalances:unmet.slice(0,200),
+        balanceMultipliers:balances.slice(0,200),
+        resourceMultipliers:resources.slice(0,200),
+        upperBoundMultipliers:bounds.slice(0,200)
+      };
+    }
+
+    /** Exact dense arc phase-I fallback used only if path generation reaches its guard. */
+    _arcPhaseOneFallback(tol) {
+      const K=this.c.commodities.length,N=this.c.N,E=this.c.graph.arcs.length,R=this.c.resources.length;
+      const fixed=this.c.fixedVars,fullB=K*N;
+      const bounded=[];for(let j=0;j<fixed.length;j++)if(Number.isFinite(fixed[j].ub))bounded.push(j);
+      const fixedStart=0,flowStart=fixed.length,flowCount=K*E,artPlus=flowStart+flowCount,artMinus=artPlus+fullB,resSlack=artMinus+fullB,boundSlack=resSlack+R;
+      const cols=boundSlack+bounded.length,rows=fullB+R+bounded.length,cells=rows*cols;
+      const maxCells=this.options.maxFeasibilityFallbackCells||this.options.maxDenseCells||8e6;
+      if(cells>maxCells)return{status:'too_large',phase:'phase1-arc-fallback',reason:`exact arc feasibility fallback would allocate ${cells.toLocaleString()} coefficients`,rows,columns:cols};
+      const A=Array.from({length:rows},()=>new Float64Array(cols)),b=new Float64Array(rows),c=new Float64Array(cols);
+      for(let i=0;i<this.c.balancePairs.length;i++){const[ki,n]=this.c.balancePairs[i];b[ki*N+n]=this.c.bEq[i];}
+      for(let r=0;r<R;r++){b[fullB+r]=this.c.resources[r].cap;A[fullB+r][resSlack+r]=1;}
+      for(let j=0;j<fixed.length;j++){
+        const v=fixed[j];
+        for(const[ri,q]of v.eq){const[ki,n]=this.c.balancePairs[ri];A[ki*N+n][fixedStart+j]=q;}
+        for(const[r,q]of v.uses||[])A[fullB+r][fixedStart+j]=q;
+      }
+      for(let ki=0;ki<K;ki++){
+        const profile=this.c.profileGroups[this.c.commodityProfile[ki]];
+        for(let eid=0;eid<E;eid++){
+          const col=flowStart+ki*E+eid,a=this.c.graph.arcs[eid];
+          A[ki*N+a.u][col]=-1;A[ki*N+a.v][col]=1;
+          for(const[r,q]of profile.edgeUses[eid])A[fullB+r][col]+=q;
+        }
+      }
+      for(let i=0;i<fullB;i++){A[i][artPlus+i]=1;A[i][artMinus+i]=-1;c[artPlus+i]=1;c[artMinus+i]=1;}
+      for(let u0=0;u0<bounded.length;u0++){const j=bounded[u0],row=fullB+R+u0;A[row][fixedStart+j]=1;A[row][boundSlack+u0]=1;b[row]=fixed[j].ub;}
+      const r=simplexEquality(A,Array.from(b),Array.from(c),this.options.maxIter||100000);
+      if(r.status!=='optimal')return Object.assign(r,{phase:'phase1-arc-fallback',rows,columns:cols});
+      let artificial=0;for(let i=0;i<fullB;i++)artificial+=(r.x[artPlus+i]||0)+(r.x[artMinus+i]||0);
+      if(artificial>tol){
+        const unmet=[];for(let i=0;i<fullB;i++){const p=r.x[artPlus+i]||0,m=r.x[artMinus+i]||0;if(p+m<=tol)continue;const ki=Math.floor(i/N),n=i%N;unmet.push({commodity:this.c.ids[ki],node:n,facility:n%this.c.F,period:Math.floor(n/this.c.F),direction:p>m?'shortfall':'surplus',quantity:p+m});}
+        return{status:'infeasible',phase:'phase1-arc-fallback',artificial,certificate:{type:'arc-phase-I-infeasibility',minimumViolation:artificial,unmetBalances:unmet.slice(0,200)},rows,columns:cols};
+      }
+      let seeded=0;
+      for(let ki=0;ki<K;ki++){
+        const residual=new Float64Array(E);for(let eid=0;eid<E;eid++)residual[eid]=r.x[flowStart+ki*E+eid]||0;
+        const eventSet=new Set(this.c.eventNodes[ki]),profile=this.c.profileGroups[this.c.commodityProfile[ki]];
+        for(const src of this.c.eventNodes[ki]){
+          let guard=0;
+          while(guard++<E+1){
+            const first=this.c.graph.out[src].find(a=>residual[a.eid]>tol);if(!first)break;
+            const path=[];let cur=src,amount=INF,steps=0;
+            while(steps++<=N){const a=this.c.graph.out[cur].find(e=>residual[e.eid]>tol);if(!a)break;path.push(a.eid);amount=Math.min(amount,residual[a.eid]);cur=a.v;if(eventSet.has(cur))break;}
+            if(!path.length||!eventSet.has(cur)||cur===src||!Number.isFinite(amount))break;
+            for(const eid of path)residual[eid]-=amount;
+            const pu=this._pathUses(profile,path);if(this._appendPath(ki,src,cur,path,pu.uses,pu.base,'arc-phase-I-seed'))seeded++;
+          }
+        }
+      }
+      return{status:'feasible',phase:'phase1-arc-fallback',artificial,seeded,rows,columns:cols};
+    }
+
+    solve() {
+      const t0=now(),tol=this.options.tolerance||1e-7;
+      const maxIterations=this.options.maxIterations||100;
+      const phase1Iterations=this.options.phase1MaxIterations||maxIterations;
+      const phase2Iterations=this.options.phase2MaxIterations||maxIterations;
+      const phase2Cols=this.options.maxColumnsPerCommodity||2;
+      const phase1Cols=this.options.phase1MaxColumnsPerCommodity||Math.max(64,phase2Cols);
+
+      let p1=this._runColumnGeneration('phase1',phase1Iterations,phase1Cols,tol);
+      if(p1.status==='iteration_limit'){
+        const fallback=this._arcPhaseOneFallback(tol);
+        this.history.push({phase:'phase1-arc-fallback',status:fallback.status,seeded:fallback.seeded||0,rows:fallback.rows,columns:fallback.columns});
+        if(fallback.status==='infeasible')return{status:'infeasible',method:'coupled-algebraic-bitset',phase:'feasibility',artificial:fallback.artificial,certificate:fallback.certificate,history:this.history,seconds:(now()-t0)/1000};
+        if(fallback.status==='feasible'&&fallback.seeded){p1=this._runColumnGeneration('phase1',Math.max(20,Math.ceil(phase1Iterations/2)),phase1Cols,tol);}
+        else if(fallback.status!=='feasible')return{status:fallback.status==='too_large'?'feasibility_undetermined':fallback.status,method:'coupled-algebraic-bitset',phase:'feasibility',reason:fallback.reason||'phase-I pricing guard reached and exact fallback did not complete',fallback,history:this.history,seconds:(now()-t0)/1000};
+      }
+      if(p1.status!=='optimal'){
+        const r=p1.master||{};
+        return{status:r.status==='infeasible'?'infeasible':p1.status,method:'coupled-algebraic-bitset',phase:'feasibility',certificate:r.status==='infeasible'?this._masterFarkasCertificate(r,'phase1'):undefined,history:this.history,seconds:(now()-t0)/1000};
+      }
+      const p1r=p1.master;let artificial=0;
+      for(let j=0;j<this.vars.length;j++)if(this.vars[j].artificial)artificial+=p1r.x[j]||0;
+      if(artificial>tol){
+        return{status:'infeasible',method:'coupled-algebraic-bitset',phase:'feasibility',objective:null,artificial,certificate:this._phaseOneCertificate(p1r,artificial,tol),history:this.history,iterations:this.history.filter(h=>h.phase==='phase1').length,seconds:(now()-t0)/1000};
+      }
+
+      const p2=this._runColumnGeneration('phase2',phase2Iterations,phase2Cols,tol);
+      if(p2.status!=='optimal'){
+        const r=p2.master||{};
+        return{status:p2.status,method:'coupled-algebraic-bitset',phase:'optimization',reason:p2.status==='iteration_limit'?'Feasibility was proved, but cost column generation reached its optimization guard.':undefined,history:this.history,seconds:(now()-t0)/1000};
+      }
+      const last=p2.master,x=last.x;
+      let objective=0;for(let j=0;j<this.vars.length;j++)if(!this.vars[j].artificial)objective+=this.vars[j].cost*(x[j]||0);
       const values={},edgeMap=new Map(),solution=[];let pathColumns=0;
-      for(let j=0;j<this.vars.length;j++){const v=this.vars[j],q=x[j];if(q<=1e-8||v.artificial)continue;values[v.name]=(values[v.name]||0)+q;solution.push({name:v.name,kind:v.kind,qty:q,meta:v.meta});if(v.kind==='path'){pathColumns++;const cid=this.c.ids[v.ki];for(const eid of v.pathEdges){if(!edgeMap.has(eid))edgeMap.set(eid,{});edgeMap.get(eid)[cid]=(edgeMap.get(eid)[cid]||0)+q;}}}
-      const resourceUsage=new Float64Array(this.c.resources.length);for(let j=0;j<this.vars.length;j++)if(x[j]>EPS)for(const[r,q]of this.vars[j].uses||[])resourceUsage[r]+=q*x[j];
+      for(let j=0;j<this.vars.length;j++){
+        const v=this.vars[j],q=x[j]||0;if(q<=1e-8||v.artificial)continue;
+        values[v.name]=(values[v.name]||0)+q;solution.push({name:v.name,kind:v.kind,qty:q,meta:v.meta});
+        if(v.kind==='path'){
+          pathColumns++;const cid=this.c.ids[v.ki];
+          for(const eid of v.pathEdges){if(!edgeMap.has(eid))edgeMap.set(eid,{});edgeMap.get(eid)[cid]=(edgeMap.get(eid)[cid]||0)+q;}
+        }
+      }
+      const resourceUsage=new Float64Array(this.c.resources.length);
+      for(let j=0;j<this.vars.length;j++)if((x[j]||0)>EPS)for(const[r,q]of this.vars[j].uses||[])resourceUsage[r]+=q*x[j];
       const minResourceSlack=this.c.resources.length?Math.min(...this.c.resources.map((r,i)=>r.cap-resourceUsage[i])):null;
-      return{status:'optimal',method:'coupled-algebraic-bitset',objective,masterObjective:last.obj,seconds:(now()-t0)/1000,iterations:this.history.length,columns:this.vars.length,pathColumns,balanceRows:this.c.balancePairs.length,resourceRows:this.c.resources.length,profileGroups:this.c.profileGroups.length,commodityCount:this.c.commodities.length,bitsetCompression:this.c.commodities.length/Math.max(1,this.c.profileGroups.length),maxBalanceResidual:0,minResourceSlack,history:this.history,values,solution,edgeFlows:Array.from(edgeMap,([eid,vector])=>({eid,vector})),graph:{nodes:this.c.N,arcs:this.c.graph.arcs.length}};
+      return{status:'optimal',method:'coupled-algebraic-bitset',objective,masterObjective:last.obj,seconds:(now()-t0)/1000,iterations:this.history.length,phase1Iterations:this.history.filter(h=>h.phase==='phase1').length,phase2Iterations:this.history.filter(h=>h.phase==='phase2').length,columns:this.vars.filter(v=>!v.artificial).length,pathColumns,balanceRows:this.c.balancePairs.length,resourceRows:this.c.resources.length,profileGroups:this.c.profileGroups.length,commodityCount:this.c.commodities.length,bitsetCompression:this.c.commodities.length/Math.max(1,this.c.profileGroups.length),maxBalanceResidual:0,minResourceSlack,history:this.history,values,solution,edgeFlows:Array.from(edgeMap,([eid,vector])=>({eid,vector})),graph:{nodes:this.c.N,arcs:this.c.graph.arcs.length}};
     }
   }
 
