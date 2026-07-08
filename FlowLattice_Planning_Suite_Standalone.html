@@ -1,0 +1,1540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FlowLattice Planning Suite</title>
+<style>
+:root{--bg:#eef1ec;--paper:#fbfcf8;--ink:#1e2b27;--muted:#65736d;--rule:#ccd5cb;--accent:#335f82;--green:#2d7a58;--orange:#bf5a22;--dark:#17231f;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:var(--sans);color:var(--ink);background:var(--bg)}
+body{background-image:linear-gradient(#dde4dc 1px,transparent 1px),linear-gradient(90deg,#dde4dc 1px,transparent 1px);background-size:24px 24px}
+.topbar{height:78px;display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--paper);border-bottom:2px solid var(--dark)}
+h1{font-size:22px;margin:0;letter-spacing:.02em}h1 span{font-weight:450;color:var(--accent)}.topbar p{margin:3px 0 0;color:var(--muted);font-size:12px}.status-pill{font:12px var(--mono);border:1px solid var(--rule);padding:7px 11px;border-radius:20px;background:#fff}
+main{display:grid;grid-template-columns:310px minmax(0,1fr);gap:16px;max-width:1600px;margin:0 auto;padding:16px 20px 42px}.sidebar{display:flex;flex-direction:column;gap:14px}.workspace{min-width:0}.panel{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:14px;box-shadow:0 1px 2px #20302810}.panel h2{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:0 0 12px}.panel-head{display:flex;justify-content:space-between;align-items:center}.panel-head h2{margin:0}
+label{display:block;font-size:11px;color:var(--muted);letter-spacing:.04em;margin:9px 0 4px}select,input,textarea,button{font:12px var(--mono)}select,input{width:100%;padding:7px;border:1px solid var(--rule);border-radius:4px;background:#fff;color:var(--ink)}button{border:1px solid var(--dark);background:transparent;color:var(--dark);padding:8px 10px;border-radius:4px;margin:8px 5px 0 0;cursor:pointer;font-family:var(--sans);font-weight:650}button:hover{opacity:.82}button:disabled{opacity:.35;cursor:not-allowed}.primary{background:var(--dark);color:#fff}.accent{background:var(--accent);border-color:var(--accent);color:#fff}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:8px}.drop{border:1px dashed #95a49b;padding:18px 12px;text-align:center;border-radius:5px;background:#f5f7f3;cursor:pointer}.drop.drag{border-color:var(--accent);background:#eaf1f5}.drop input{display:none}.drop strong,.drop span{display:block}.drop span{font-size:10px;margin-top:4px}.hint{color:var(--muted);font-size:11px;line-height:1.45}
+.tabs{display:flex;gap:4px;padding:6px;background:var(--dark);border-radius:6px 6px 0 0}.tab{border:0;color:#dfe7e2;background:transparent;margin:0;padding:8px 15px}.tab.active{background:var(--paper);color:var(--ink)}.tabpage{display:none;gap:14px;padding-top:14px}.tabpage.active{display:grid}.hero{display:flex;justify-content:space-between;align-items:center;min-height:132px;background:linear-gradient(120deg,#fbfcf8 60%,#e8efea)}.hero h2{font-size:28px;letter-spacing:-.02em;text-transform:none;color:var(--ink);margin:3px 0 6px}.hero p{margin:0;max-width:730px;color:var(--muted)}.eyebrow{font:11px var(--mono);color:var(--green);text-transform:uppercase}.equation{font:20px var(--mono);padding:14px 18px;border:1px solid var(--rule);background:#fff;border-radius:4px;white-space:nowrap}
+.metrics{display:grid;grid-template-columns:repeat(5,minmax(110px,1fr));gap:10px}.metric{background:var(--paper);border:1px solid var(--rule);padding:12px;border-radius:5px}.metric b{display:block;font:22px var(--mono);margin-top:5px}.metric span{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.empty{color:var(--muted);font-size:13px}pre{white-space:pre-wrap;word-break:break-word;background:#17231f;color:#dce8df;padding:13px;border-radius:4px;max-height:410px;overflow:auto;font:11px/1.5 var(--mono);margin:0}.editor-panel{padding:0;overflow:hidden}.editor-panel .panel-head{padding:10px 12px;border-bottom:1px solid var(--rule)}#model-editor{width:100%;height:72vh;border:0;resize:vertical;padding:14px;background:#17231f;color:#dce8df;font:12px/1.5 var(--mono);outline:none}
+.badge{display:inline-block;font:11px var(--mono);padding:3px 7px;border-radius:10px;margin:2px 4px 2px 0;border:1px solid var(--rule)}.badge.ok{color:var(--green);border-color:var(--green)}.badge.warn{color:var(--orange);border-color:var(--orange)}.route{font:19px var(--mono);color:var(--accent);margin-bottom:9px}.conditions-list{margin:0;padding-left:18px;font-size:13px}.conditions-list li{margin:5px 0}.table-wrap{overflow:auto;max-height:430px}table{border-collapse:collapse;width:100%;font:11px var(--mono)}th,td{text-align:left;border-bottom:1px solid #e0e6df;padding:6px 8px;white-space:nowrap}th{position:sticky;top:0;background:var(--paper);color:var(--muted)}.benchmark-card strong{font:16px var(--mono);display:block;margin-bottom:8px}.benchmark-card p{color:var(--muted);font-size:12px}.benchmark-card a{font-size:12px;color:var(--accent)}.progress{margin-top:10px;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}.progress i{width:12px;height:12px;border:2px solid var(--rule);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}.hidden{display:none}@keyframes spin{to{transform:rotate(360deg)}}footer{padding:15px 24px;background:var(--dark);color:#bdc9c1;font:11px var(--mono)}
+@media(max-width:1050px){main{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr}.metrics{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.sidebar,.grid2,.grid3{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.hero{display:block}.equation{margin-top:14px}.topbar{height:auto}.status-pill{display:none}}
+
+
+/* single-file additions */
+button.link-button{width:auto;margin-top:10px;background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.offline-note{font-family:var(--mono);font-size:11px;color:var(--ink2)}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <h1>FlowLattice <span>Planning Suite</span></h1>
+    <p>Algebraic hybrid · packed bitmatrix · lot-equivalence quotient · MPS/LP import</p>
+  </div>
+  <div class="status-pill" id="runtime-status">single-file · offline · no server</div>
+</header>
+
+<div class="offline-note" style="padding:8px 22px 0">Standalone build: all solver code, import parsers, samples, worker source, and benchmark artifacts are embedded in this file.</div>
+<main>
+  <aside class="sidebar">
+    <section class="panel">
+      <h2>Model input</h2>
+      <label class="drop" id="drop-zone">
+        <input id="file-input" type="file" accept=".json,.mps,.lp,text/plain,application/json">
+        <strong>Drop or choose a model</strong>
+        <span>FlowLattice JSON, MPS, or CPLEX-LP</span>
+      </label>
+      <label>Sample model</label>
+      <select id="sample-select">
+        <option value="">Choose…</option>
+        <option value="samples/flowlattice_fastpath.json">Packed routing fast path</option>
+        <option value="samples/coupled_recipe.json">Coupled recipe/resource LP</option>
+        <option value="samples/lot_demo.json">Lot-level quotient</option>
+        <option value="samples/network.mps">MPS incidence network</option>
+        <option value="samples/transport.lp">CPLEX-LP transportation</option>
+      </select>
+      <button id="load-sample">Load sample</button>
+    </section>
+
+    <section class="panel">
+      <h2>Solver</h2>
+      <label>Engine</label>
+      <select id="engine-select">
+        <option value="auto">Adaptive exact</option>
+        <option value="bitmatrix">Packed bitmatrix</option>
+        <option value="network">Network / commodity MCF</option>
+        <option value="lot">Lot-equivalence quotient</option>
+        <option value="lp">Coupled LP</option>
+        <option value="milp">Coupled MILP</option>
+      </select>
+      <div class="twocol">
+        <label>Dense cell limit<input id="dense-limit" type="number" value="8000000" min="1000"></label>
+        <label>MILP time, s<input id="time-limit" type="number" value="10" min="1"></label>
+      </div>
+      <button class="primary" id="analyze-btn">Analyze</button>
+      <button class="accent" id="solve-btn">Solve plan</button>
+      <button id="stop-btn" disabled>Stop</button>
+      <div id="progress" class="progress hidden"><i></i><span>Solving…</span></div>
+    </section>
+
+    <section class="panel">
+      <h2>Export</h2>
+      <button id="export-model" disabled>Model JSON</button>
+      <button id="export-result" disabled>Plan JSON</button>
+      <button id="export-lp" disabled>Canonical LP</button>
+      <button id="lift-lots" disabled>Lift lot identities</button>
+    </section>
+
+    <section class="panel">
+      <h2>Browser benchmark</h2>
+      <select id="bench-size"><option value="small">1,000 SKUs</option><option value="medium">5,000 SKUs</option><option value="large">20,000 SKUs</option></select>
+      <button id="bench-btn">Run benchmark</button>
+      <p class="hint">Compares packed routing with a sampled scalar commodity-flow baseline in this browser.</p>
+    </section>
+  </aside>
+
+  <section class="workspace">
+    <nav class="tabs">
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="model">Model</button>
+      <button class="tab" data-tab="plan">Plan</button>
+      <button class="tab" data-tab="audit">Audit</button>
+      <button class="tab" data-tab="benchmark">Benchmarks</button>
+    </nav>
+
+    <section class="tabpage active" id="tab-overview">
+      <div class="hero panel">
+        <div>
+          <div class="eyebrow">Adaptive representation compiler</div>
+          <h2 id="model-title">No model loaded</h2>
+          <p id="model-subtitle">Import a model to classify its algebraic structure and select an exact backend.</p>
+        </div>
+        <div class="equation">(∂ ⊗ I<sub>M</sub>)f + Sx = d</div>
+      </div>
+      <div class="metrics" id="metrics"></div>
+      <div class="grid2">
+        <section class="panel"><h2>Recommended path</h2><div id="recommendation" class="empty">Awaiting model.</div></section>
+        <section class="panel"><h2>Exactness conditions</h2><div id="conditions" class="empty">The suite proves applicability before using a specialized solver.</div></section>
+      </div>
+      <section class="panel"><h2>Diagnostics</h2><pre id="diagnostics">No diagnostics.</pre></section>
+    </section>
+
+    <section class="tabpage" id="tab-model">
+      <section class="panel editor-panel">
+        <div class="panel-head"><h2>Canonical model</h2><button id="apply-editor">Apply edited JSON</button></div>
+        <textarea id="model-editor" spellcheck="false" placeholder="Model content appears here"></textarea>
+      </section>
+    </section>
+
+    <section class="tabpage" id="tab-plan">
+      <div class="metrics" id="solution-metrics"></div>
+      <section class="panel"><h2>Solution</h2><div id="solution-summary" class="empty">Solve a model to see the plan.</div></section>
+      <section class="panel"><h2>Variables / flows / slices</h2><div class="table-wrap"><table id="solution-table"><thead></thead><tbody></tbody></table></div></section>
+      <section class="panel"><h2>Raw result</h2><pre id="raw-result">No result.</pre></section>
+    </section>
+
+    <section class="tabpage" id="tab-audit">
+      <div class="grid2">
+        <section class="panel"><h2>Feasibility certificate</h2><div id="certificate" class="empty">No certificate.</div></section>
+        <section class="panel"><h2>Identity / provenance lift</h2><div id="lot-audit" class="empty">Lot plans can be lifted from class ranges to canonical lot IDs.</div></section>
+      </div>
+      <section class="panel"><h2>Lifted lot allocations</h2><pre id="lifted-result">No lifted allocation.</pre></section>
+    </section>
+
+    <section class="tabpage" id="tab-benchmark">
+      <div class="grid3">
+        <section class="panel benchmark-card"><h2>Algebraic hybrid</h2><strong>Event/path reduction</strong><p>Eliminates zero-boundary graph nodes and isolates coupled resource rows.</p><button class="link-button" data-benchmark-download="hybrid_benchmark.csv">Download embedded CSV</button></section>
+        <section class="panel benchmark-card"><h2>Packed bitmatrix</h2><strong>Bit shifts + bit-sliced quantities</strong><p>Compiles repeated time topology and material blocks into packed operations.</p><button class="link-button" data-benchmark-download="bitmatrix_benchmark_all.csv">Download embedded CSV</button></section>
+        <section class="panel benchmark-card"><h2>Lot quotient</h2><strong>Class multiplicity + exact lift</strong><p>Optimizes planning-equivalent lots once, then restores exact identities.</p><button class="link-button" data-benchmark-download="lot_level_benchmark.csv">Download embedded CSV</button></section>
+      </div>
+      <section class="panel"><h2>Current-browser run</h2><pre id="benchmark-output">No benchmark run.</pre></section>
+    </section>
+  </section>
+</main>
+
+<footer>FlowLattice single-file planning suite · all parsing and solving occurs locally in this tab</footer>
+
+<script type="text/plain" id="fl-src-0" data-filename="flowlattice_core.js">
+(function (root, factory) {
+  const api = factory();
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  root.FlowLatticeCore = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+
+  const EPS = 1e-9;
+  const INF = Number.POSITIVE_INFINITY;
+
+  class BinaryHeap {
+    constructor(compare) { this.a = []; this.compare = compare || ((x, y) => x[0] - y[0]); }
+    get size() { return this.a.length; }
+    push(x) {
+      const a = this.a; a.push(x); let i = a.length - 1;
+      while (i > 0) {
+        const p = (i - 1) >> 1;
+        if (this.compare(a[p], x) <= 0) break;
+        a[i] = a[p]; i = p;
+      }
+      a[i] = x;
+    }
+    pop() {
+      const a = this.a;
+      if (!a.length) return undefined;
+      const top = a[0], last = a.pop();
+      if (a.length) {
+        let i = 0;
+        while (true) {
+          let l = i * 2 + 1, r = l + 1;
+          if (l >= a.length) break;
+          let c = r < a.length && this.compare(a[r], a[l]) < 0 ? r : l;
+          if (this.compare(a[c], last) >= 0) break;
+          a[i] = a[c]; i = c;
+        }
+        a[i] = last;
+      }
+      return top;
+    }
+  }
+
+  function now() {
+    return typeof performance !== 'undefined' && performance.now ? performance.now() : Date.now();
+  }
+
+  function cloneJSON(x) { return JSON.parse(JSON.stringify(x)); }
+
+  function iterEntries(obj) {
+    if (!obj) return [];
+    if (obj instanceof Map) return obj.entries();
+    return Object.entries(obj);
+  }
+
+  function sparseDot(a, b) {
+    let s = 0;
+    const [sm, lg] = Object.keys(a).length <= Object.keys(b).length ? [a, b] : [b, a];
+    for (const k in sm) if (Object.prototype.hasOwnProperty.call(lg, k)) s += sm[k] * lg[k];
+    return s;
+  }
+
+  function addSparse(dst, src, scale = 1) {
+    for (const k in src) {
+      const v = (dst[k] || 0) + scale * src[k];
+      if (Math.abs(v) <= EPS) delete dst[k]; else dst[k] = v;
+    }
+    return dst;
+  }
+
+  function cid128(str) {
+    let h1 = 1779033703, h2 = 3144134277, h3 = 1013904242, h4 = 2773480762;
+    for (let i = 0; i < str.length; i++) {
+      const k = str.charCodeAt(i);
+      h1 = h2 ^ Math.imul(h1 ^ k, 597399067);
+      h2 = h3 ^ Math.imul(h2 ^ k, 2869860233);
+      h3 = h4 ^ Math.imul(h3 ^ k, 951274213);
+      h4 = h1 ^ Math.imul(h4 ^ k, 2716044179);
+    }
+    h1 = Math.imul(h3 ^ (h1 >>> 18), 597399067);
+    h2 = Math.imul(h4 ^ (h2 >>> 22), 2869860233);
+    h3 = Math.imul(h1 ^ (h3 >>> 17), 951274213);
+    h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
+    return [h1, h2, h3, h4].map(x => (x >>> 0).toString(16).padStart(8, '0')).join('');
+  }
+
+  /** Successive shortest path with Johnson potentials. Supports real costs/capacities. */
+  class MinCostFlow {
+    constructor(n) {
+      this.n = n;
+      this.g = Array.from({ length: n }, () => []);
+      this.forward = [];
+    }
+    addArc(u, v, cap, cost, tag = null, lower = 0) {
+      if (!(cap >= lower - EPS)) throw new Error('arc capacity below lower bound');
+      const f = { to: v, rev: this.g[v].length, cap: cap - lower, cost, flow: 0, tag, lower, originalCap: cap };
+      const r = { to: u, rev: this.g[u].length, cap: 0, cost: -cost, flow: 0, tag: null, lower: 0, originalCap: 0 };
+      this.g[u].push(f); this.g[v].push(r);
+      const id = this.forward.length;
+      this.forward.push({ u, index: this.g[u].length - 1 });
+      return id;
+    }
+    solve(supply, options = {}) {
+      const t0 = now();
+      const n0 = this.n;
+      if (supply.length !== n0) throw new Error('supply length mismatch');
+      const bal = Float64Array.from(supply);
+      for (const { u, index } of this.forward) {
+        const a = this.g[u][index];
+        if (a.lower) { bal[u] -= a.lower; bal[a.to] += a.lower; }
+      }
+      const S = this.g.length, T = S + 1;
+      this.g.push([]); this.g.push([]); this.n += 2;
+      let total = 0;
+      for (let i = 0; i < n0; i++) {
+        if (bal[i] > EPS) { this.addArc(S, i, bal[i], 0, { kind: 'super-supply' }); total += bal[i]; }
+        else if (bal[i] < -EPS) this.addArc(i, T, -bal[i], 0, { kind: 'super-demand' });
+      }
+      const pi = new Float64Array(this.n);
+      const hasNegative = this.g.some(row => row.some(a => a.cap > EPS && a.cost < -EPS));
+      if (hasNegative) {
+        const dist = new Float64Array(this.n); dist.fill(INF); dist[S] = 0;
+        for (let k = 0; k < this.n - 1; k++) {
+          let ch = false;
+          for (let u = 0; u < this.n; u++) if (dist[u] < INF) for (const a of this.g[u]) {
+            if (a.cap > EPS && dist[u] + a.cost < dist[a.to] - EPS) { dist[a.to] = dist[u] + a.cost; ch = true; }
+          }
+          if (!ch) break;
+        }
+        for (let i = 0; i < this.n; i++) if (dist[i] < INF) pi[i] = dist[i];
+      }
+      let sent = 0, cost = 0, augmentations = 0;
+      const maxAugmentations = options.maxAugmentations || 1e7;
+      while (sent < total - EPS && augmentations < maxAugmentations) {
+        const dist = new Float64Array(this.n); dist.fill(INF); dist[S] = 0;
+        const prevN = new Int32Array(this.n); prevN.fill(-1);
+        const prevE = new Int32Array(this.n); prevE.fill(-1);
+        const heap = new BinaryHeap((a, b) => a[0] - b[0]); heap.push([0, S]);
+        while (heap.size) {
+          const [du, u] = heap.pop(); if (du > dist[u] + EPS) continue;
+          const row = this.g[u];
+          for (let ei = 0; ei < row.length; ei++) {
+            const a = row[ei]; if (a.cap <= EPS) continue;
+            const rc = a.cost + pi[u] - pi[a.to];
+            const nd = du + rc;
+            if (nd < dist[a.to] - EPS) {
+              dist[a.to] = nd; prevN[a.to] = u; prevE[a.to] = ei; heap.push([nd, a.to]);
+            }
+          }
+        }
+        if (!Number.isFinite(dist[T])) break;
+        for (let i = 0; i < this.n; i++) if (Number.isFinite(dist[i])) pi[i] += dist[i];
+        let push = total - sent;
+        for (let v = T; v !== S; v = prevN[v]) {
+          if (prevN[v] < 0) { push = 0; break; }
+          push = Math.min(push, this.g[prevN[v]][prevE[v]].cap);
+        }
+        if (push <= EPS) break;
+        for (let v = T; v !== S; v = prevN[v]) {
+          const u = prevN[v], ei = prevE[v], a = this.g[u][ei], r = this.g[v][a.rev];
+          a.cap -= push; r.cap += push; a.flow += push; r.flow -= push; cost += push * a.cost;
+        }
+        sent += push; augmentations++;
+      }
+      const originalArcs = this.forward.slice(0, this.forward.length - (this.n - n0 > 0 ? 0 : 0)).map(({ u, index }, id) => {
+        const a = this.g[u][index];
+        return { id, u, v: a.to, flow: a.flow + (a.lower || 0), cost: a.cost, cap: a.originalCap, tag: a.tag };
+      }).filter(a => a.u < n0 && a.v < n0);
+      let status = sent >= total - 1e-7 ? 'optimal' : 'infeasible';
+      let cut = null;
+      if (status === 'infeasible') {
+        const reach = new Uint8Array(this.n), st = [S]; reach[S] = 1;
+        while (st.length) {
+          const u = st.pop();
+          for (const a of this.g[u]) if (a.cap > EPS && !reach[a.to]) { reach[a.to] = 1; st.push(a.to); }
+        }
+        cut = { reachable: Array.from(reach.slice(0, n0), Boolean), shortfall: total - sent };
+      }
+      this.g.length = n0; this.n = n0;
+      return { status, cost, sent, total, augmentations, arcs: originalArcs, cut, seconds: (now() - t0) / 1000 };
+    }
+  }
+
+  /** Dense two-phase simplex: min c'x, Ax=b, x>=0. */
+  function simplexEquality(Ain, bin, cin, maxIter = 100000) {
+    const t0 = now();
+    const m = Ain.length, n = cin.length, N = n + m, RHS = N;
+    if (!m) return { status: cin.some(c => c < -EPS) ? 'unbounded' : 'optimal', x: new Array(n).fill(0), obj: 0, seconds: 0 };
+    const sgn = bin.map(v => v < 0 ? -1 : 1);
+    const T = Ain.map((row, i) => {
+      const r = new Float64Array(N + 1);
+      for (let j = 0; j < n; j++) r[j] = (row[j] || 0) * sgn[i];
+      r[n + i] = 1; r[RHS] = bin[i] * sgn[i]; return r;
+    });
+    const basis = Array.from({ length: m }, (_, i) => n + i);
+    const z = new Float64Array(N + 1);
+    for (let j = n; j < N; j++) z[j] = 1;
+    for (let i = 0; i < m; i++) for (let j = 0; j <= N; j++) z[j] -= T[i][j];
+    function pivot(pr, pc) {
+      const d = T[pr][pc];
+      for (let j = 0; j <= N; j++) T[pr][j] /= d;
+      for (let i = 0; i < m; i++) if (i !== pr && Math.abs(T[i][pc]) > 1e-12) {
+        const f = T[i][pc]; for (let j = 0; j <= N; j++) T[i][j] -= f * T[pr][j];
+      }
+      const f = z[pc]; if (Math.abs(f) > 1e-12) for (let j = 0; j <= N; j++) z[j] -= f * T[pr][j];
+      basis[pr] = pc;
+    }
+    function iterate(cols) {
+      for (let it = 0; it < maxIter; it++) {
+        let pc = -1;
+        for (const j of cols) if (z[j] < -1e-9) { pc = j; break; }
+        if (pc < 0) return { status: 'optimal', iterations: it };
+        let pr = -1, best = INF;
+        for (let i = 0; i < m; i++) if (T[i][pc] > 1e-9) {
+          const ratio = T[i][RHS] / T[i][pc];
+          if (ratio < best - 1e-12 || (Math.abs(ratio - best) <= 1e-12 && (pr < 0 || basis[i] < basis[pr]))) { best = ratio; pr = i; }
+        }
+        if (pr < 0) return { status: 'unbounded', iterations: it };
+        pivot(pr, pc);
+      }
+      return { status: 'maxiter', iterations: maxIter };
+    }
+    const allCols = Array.from({ length: N }, (_, j) => j), realCols = Array.from({ length: n }, (_, j) => j);
+    const p1s = iterate(allCols), p1 = -z[RHS];
+    if (p1s.status === 'maxiter') return { status: 'maxiter', seconds: (now() - t0) / 1000 };
+    if (p1 > 1e-7) {
+      const y = new Array(m); for (let i = 0; i < m; i++) y[i] = (1 - z[n + i]) * sgn[i];
+      return { status: 'infeasible', farkas: y, seconds: (now() - t0) / 1000 };
+    }
+    for (let i = 0; i < m; i++) if (basis[i] >= n) {
+      let pc = -1; for (let j = 0; j < n; j++) if (Math.abs(T[i][j]) > 1e-9) { pc = j; break; }
+      if (pc >= 0) pivot(i, pc);
+    }
+    z.fill(0); for (let j = 0; j < n; j++) z[j] = cin[j];
+    for (let i = 0; i < m; i++) if (basis[i] < n && Math.abs(cin[basis[i]]) > 1e-15) {
+      const cb = cin[basis[i]]; for (let j = 0; j <= N; j++) z[j] -= cb * T[i][j];
+    }
+    const p2s = iterate(realCols);
+    if (p2s.status !== 'optimal') return { status: p2s.status, seconds: (now() - t0) / 1000 };
+    const x = new Float64Array(n); for (let i = 0; i < m; i++) if (basis[i] < n) x[basis[i]] = T[i][RHS];
+    let obj = 0; for (let j = 0; j < n; j++) obj += cin[j] * x[j];
+    return { status: 'optimal', x: Array.from(x), obj, dual: Array.from(z.slice(n, N)), iterations: p1s.iterations + p2s.iterations, seconds: (now() - t0) / 1000 };
+  }
+
+  /** Convert a bounded mixed-sense LP to equality/nonnegative form. */
+  function standardizeLP(model) {
+    const vars = model.variables || [];
+    const constraints = model.constraints || [];
+    const names = [], c = [], mappings = [];
+    const rowMaps = constraints.map(() => ({}));
+    const rhs = constraints.map(r => +r.rhs || 0);
+    const senses = constraints.map(r => r.sense || '=');
+    let objectiveConstant = +(model.objective && model.objective.constant || 0);
+    const objCoef = (model.objective && model.objective.coefficients) || {};
+
+    function addColumn(name, cost, coeffs, map) {
+      const j = names.length; names.push(name); c.push(cost);
+      for (let i = 0; i < constraints.length; i++) {
+        const v = coeffs[i] || 0; if (Math.abs(v) > EPS) rowMaps[i][j] = v;
+      }
+      mappings.push(map); return j;
+    }
+
+    vars.forEach((v, vi) => {
+      const lb = v.lb == null ? 0 : +v.lb, ub = v.ub == null ? INF : +v.ub;
+      const coeffs = constraints.map(r => +((r.coefficients || {})[v.name] || 0));
+      const oc = +(objCoef[v.name] || 0);
+      if (!Number.isFinite(lb) && !Number.isFinite(ub)) {
+        addColumn(v.name + '$p', oc, coeffs, { original: vi, scale: 1, shift: 0 });
+        addColumn(v.name + '$n', -oc, coeffs.map(x => -x), { original: vi, scale: -1, shift: 0 });
+      } else {
+        const shift = Number.isFinite(lb) ? lb : ub;
+        const scale = Number.isFinite(lb) ? 1 : -1;
+        for (let i = 0; i < rhs.length; i++) rhs[i] -= (coeffs[i] || 0) * shift;
+        objectiveConstant += oc * shift;
+        addColumn(v.name + '$z', oc * scale, coeffs.map(x => x * scale), { original: vi, scale, shift });
+        const width = Number.isFinite(lb) && Number.isFinite(ub) ? ub - lb : INF;
+        if (Number.isFinite(width)) {
+          const rm = {}; rm[names.length - 1] = 1;
+          rowMaps.push(rm); rhs.push(width); senses.push('<=');
+        }
+      }
+    });
+
+    for (let i = 0; i < rowMaps.length; i++) {
+      if (senses[i] === '<=') {
+        const j = names.length; names.push(`$slack${i}`); c.push(0); rowMaps[i][j] = 1; mappings.push(null);
+      } else if (senses[i] === '>=') {
+        const j = names.length; names.push(`$surplus${i}`); c.push(0); rowMaps[i][j] = -1; mappings.push(null);
+      }
+    }
+    const n = names.length;
+    const A = rowMaps.map(r => { const row = new Float64Array(n); for (const [j, v] of Object.entries(r)) row[+j] = v; return Array.from(row); });
+    if ((model.objective && model.objective.sense || 'min').toLowerCase().startsWith('max')) for (let j = 0; j < c.length; j++) c[j] *= -1;
+    return { A, b: rhs, c, names, mappings, originalVariables: vars, objectiveConstant, maximize: (model.objective && model.objective.sense || 'min').toLowerCase().startsWith('max') };
+  }
+
+  function recoverStandardSolution(std, x) {
+    const out = Object.fromEntries(std.originalVariables.map(v => [v.name, 0]));
+    const shifted = new Set();
+    for (let j = 0; j < std.mappings.length; j++) {
+      const m = std.mappings[j]; if (!m) continue;
+      const name = std.originalVariables[m.original].name;
+      if (!shifted.has(m.original)) { out[name] = m.shift; shifted.add(m.original); }
+      out[name] += m.scale * (x[j] || 0);
+    }
+    return out;
+  }
+
+  function solveDenseLP(model, options = {}) {
+    const std = standardizeLP(model);
+    const cells = std.A.length * std.c.length;
+    const maxCells = options.maxDenseCells || 8e6;
+    if (cells > maxCells) return { status: 'too_large', reason: `dense simplex would allocate ${cells.toLocaleString()} coefficients`, rows: std.A.length, columns: std.c.length };
+    const r = simplexEquality(std.A, std.b, std.c, options.maxIter || 100000);
+    if (r.status !== 'optimal') return Object.assign(r, { rows: std.A.length, columns: std.c.length });
+    const values = recoverStandardSolution(std, r.x);
+    let objective = r.obj + std.objectiveConstant; if (std.maximize) objective = -r.obj + std.objectiveConstant;
+    return { status: 'optimal', objective, values, rows: std.A.length, columns: std.c.length, seconds: r.seconds, iterations: r.iterations };
+  }
+
+  return {
+    EPS, INF, BinaryHeap, MinCostFlow, simplexEquality, standardizeLP, recoverStandardSolution,
+    solveDenseLP, sparseDot, addSparse, iterEntries, cloneJSON, cid128, now
+  };
+});
+
+</script>
+<script type="text/plain" id="fl-src-1" data-filename="model_parsers.js">
+(function (root, factory) {
+  const api = factory(root.FlowLatticeCore || (typeof require !== 'undefined' ? require('./flowlattice_core.js') : null));
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  root.FlowLatticeParsers = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (Core) {
+  'use strict';
+  const INF = Number.POSITIVE_INFINITY;
+
+  function stripCommentsLP(text) {
+    return text.replace(/\\[^\n]*/g, '').replace(/\/\*[\s\S]*?\*\//g, '');
+  }
+
+  function tokenizeLinear(expr) {
+    const s = expr.replace(/([+\-])/g, ' $1 ').replace(/\*/g, ' ').trim();
+    const raw = s.split(/\s+/).filter(Boolean);
+    const out = [];
+    for (let i = 0; i < raw.length;) {
+      let sign = 1;
+      if (raw[i] === '+') { i++; }
+      else if (raw[i] === '-') { sign = -1; i++; }
+      if (i >= raw.length) break;
+      let coef = 1;
+      if (/^(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+\-]?\d+)?$/.test(raw[i])) { coef = +raw[i]; i++; }
+      if (i >= raw.length) { out.push({ constant: sign * coef }); break; }
+      const name = raw[i++];
+      if (/^(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+\-]?\d+)?$/.test(name)) out.push({ constant: sign * coef * (+name) });
+      else out.push({ name, coef: sign * coef });
+    }
+    return out;
+  }
+
+  function parseLinearExpression(expr) {
+    const coefficients = {}, terms = tokenizeLinear(expr); let constant = 0;
+    for (const t of terms) {
+      if (t.name) coefficients[t.name] = (coefficients[t.name] || 0) + t.coef;
+      else constant += t.constant || 0;
+    }
+    return { coefficients, constant };
+  }
+
+  function splitLPSections(text) {
+    const clean = stripCommentsLP(text).replace(/\r/g, '');
+    const re = /^\s*(minimize|minimum|min|maximize|maximum|max|subject\s+to|such\s+that|s\.t\.|st|bounds|binaries|binary|generals|general|integers|integer|end)\b/im;
+    const lines = clean.split('\n');
+    const sections = []; let current = null;
+    for (const line0 of lines) {
+      const line = line0.trim(); if (!line) continue;
+      const m = line.match(/^(minimize|minimum|min|maximize|maximum|max|subject\s+to|such\s+that|s\.t\.|st|bounds|binaries|binary|generals|general|integers|integer|end)\b\s*:?(.*)$/i);
+      if (m) {
+        const key = m[1].toLowerCase();
+        const type = /min/.test(key) ? 'objective-min' : /max/.test(key) ? 'objective-max' : /subject|such|s\.t|^st$/.test(key) ? 'constraints' : /bound/.test(key) ? 'bounds' : /binar/.test(key) ? 'binary' : /general|integer/.test(key) ? 'integer' : 'end';
+        current = { type, lines: [] }; sections.push(current); if (m[2].trim()) current.lines.push(m[2].trim());
+      } else if (current) current.lines.push(line);
+    }
+    return sections;
+  }
+
+  function parseLP(text, name = 'imported-lp') {
+    const sections = splitLPSections(text);
+    const varMap = new Map();
+    const ensure = n => { if (!varMap.has(n)) varMap.set(n, { name: n, lb: 0, ub: INF, type: 'continuous' }); return varMap.get(n); };
+    let objective = { sense: 'min', coefficients: {}, constant: 0, name: 'obj' };
+    const constraints = [];
+    for (const sec of sections) {
+      if (sec.type.startsWith('objective')) {
+        objective.sense = sec.type.endsWith('max') ? 'max' : 'min';
+        let expr = sec.lines.join(' '); const cm = expr.match(/^([^:]+):\s*(.*)$/); if (cm) { objective.name = cm[1].trim(); expr = cm[2]; }
+        const p = parseLinearExpression(expr); objective.coefficients = p.coefficients; objective.constant = p.constant;
+        Object.keys(p.coefficients).forEach(ensure);
+      } else if (sec.type === 'constraints') {
+        let pending = '';
+        for (const line of sec.lines) {
+          pending += (pending ? ' ' : '') + line;
+          if (!/(<=|>=|=)/.test(pending)) continue;
+          const m = pending.match(/^(?:(.*?):)?\s*(.*?)\s*(<=|>=|=)\s*(.*?)$/);
+          if (!m) continue;
+          const cname = (m[1] || `c${constraints.length}`).trim();
+          const lhs = parseLinearExpression(m[2]), rhsExpr = parseLinearExpression(m[4]);
+          const coeff = Object.assign({}, lhs.coefficients);
+          for (const [v, a] of Object.entries(rhsExpr.coefficients)) coeff[v] = (coeff[v] || 0) - a;
+          const rhs = rhsExpr.constant - lhs.constant;
+          Object.keys(coeff).forEach(ensure);
+          constraints.push({ name: cname, sense: m[3], rhs, coefficients: coeff }); pending = '';
+        }
+      } else if (sec.type === 'bounds') {
+        for (const line of sec.lines) {
+          let m;
+          if ((m = line.match(/^(.+?)\s+free$/i))) { const v = ensure(m[1].trim()); v.lb = -INF; v.ub = INF; continue; }
+          if ((m = line.match(/^([+\-]?[\d.eE]+)\s*<=\s*(\S+)\s*<=\s*([+\-]?[\d.eE]+)$/))) { const v = ensure(m[2]); v.lb = +m[1]; v.ub = +m[3]; continue; }
+          if ((m = line.match(/^(\S+)\s*<=\s*([+\-]?[\d.eE]+)$/))) { ensure(m[1]).ub = +m[2]; continue; }
+          if ((m = line.match(/^(\S+)\s*>=\s*([+\-]?[\d.eE]+)$/))) { ensure(m[1]).lb = +m[2]; continue; }
+          if ((m = line.match(/^([+\-]?[\d.eE]+)\s*<=\s*(\S+)$/))) { ensure(m[2]).lb = +m[1]; continue; }
+          if ((m = line.match(/^(\S+)\s*=\s*([+\-]?[\d.eE]+)$/))) { const v = ensure(m[1]); v.lb = v.ub = +m[2]; continue; }
+        }
+      } else if (sec.type === 'binary' || sec.type === 'integer') {
+        for (const token of sec.lines.join(' ').split(/\s+/).filter(Boolean)) {
+          const v = ensure(token); v.type = sec.type === 'binary' ? 'binary' : 'integer'; if (sec.type === 'binary') { v.lb = 0; v.ub = 1; }
+        }
+      }
+    }
+    return { schema: 'canonical-lp-v1', name, sourceFormat: 'lp', objective, variables: Array.from(varMap.values()), constraints, metadata: {} };
+  }
+
+  function parseMPS(text, name = 'imported-mps') {
+    const lines = text.replace(/\r/g, '').split('\n');
+    let section = '', modelName = name, objSense = 'min', objRow = null, intMode = false;
+    const rowType = new Map(), rowOrder = [], columns = new Map(), rhsSets = new Map(), rangeSets = new Map(), bounds = new Map();
+    let activeRhs = null, activeRange = null, activeBound = null;
+    const ensureVar = n => { if (!columns.has(n)) columns.set(n, new Map()); if (!bounds.has(n)) bounds.set(n, { name: n, lb: 0, ub: INF, type: intMode ? 'integer' : 'continuous' }); return bounds.get(n); };
+    function fields(line) { return line.trim().split(/\s+/); }
+    for (const raw of lines) {
+      if (!raw.trim() || raw.trim().startsWith('*')) continue;
+      const f = fields(raw), head = f[0].toUpperCase();
+      if (['NAME','OBJSENSE','OBJNAME','ROWS','COLUMNS','RHS','RANGES','BOUNDS','ENDATA'].includes(head) && raw[0] !== ' ') {
+        section = head;
+        if (head === 'NAME' && f[1]) modelName = f[1];
+        else if (head === 'OBJSENSE' && f[1]) objSense = f[1].toLowerCase().startsWith('max') ? 'max' : 'min';
+        else if (head === 'OBJNAME' && f[1]) objRow = f[1];
+        continue;
+      }
+      if (section === 'OBJSENSE') { objSense = head.startsWith('MAX') ? 'max' : 'min'; continue; }
+      if (section === 'ROWS') {
+        const type = f[0].toUpperCase(), rn = f[1]; rowType.set(rn, type); rowOrder.push(rn); if (type === 'N' && !objRow) objRow = rn;
+      } else if (section === 'COLUMNS') {
+        const vn = f[0];
+        if (f[1] && f[1].replace(/'/g,'').toUpperCase() === 'MARKER') { const marker = (f[2] || '').replace(/'/g,'').toUpperCase(); intMode = marker === 'INTORG' ? true : marker === 'INTEND' ? false : intMode; continue; }
+        const v = ensureVar(vn); if (intMode) v.type = 'integer'; const col = columns.get(vn);
+        for (let i = 1; i + 1 < f.length; i += 2) col.set(f[i], (col.get(f[i]) || 0) + (+f[i + 1]));
+      } else if (section === 'RHS') {
+        const set = f[0]; if (!rhsSets.has(set)) rhsSets.set(set, new Map()); activeRhs ||= set; const r = rhsSets.get(set);
+        for (let i = 1; i + 1 < f.length; i += 2) r.set(f[i], +f[i + 1]);
+      } else if (section === 'RANGES') {
+        const set = f[0]; if (!rangeSets.has(set)) rangeSets.set(set, new Map()); activeRange ||= set; const r = rangeSets.get(set);
+        for (let i = 1; i + 1 < f.length; i += 2) r.set(f[i], +f[i + 1]);
+      } else if (section === 'BOUNDS') {
+        const type = f[0].toUpperCase(), set = f[1], vn = f[2], val = f[3] == null ? null : +f[3]; activeBound ||= set; const v = ensureVar(vn);
+        if (type === 'LO') v.lb = val; else if (type === 'UP') v.ub = val; else if (type === 'FX') v.lb = v.ub = val;
+        else if (type === 'FR') { v.lb = -INF; v.ub = INF; } else if (type === 'MI') v.lb = -INF; else if (type === 'PL') v.ub = INF;
+        else if (type === 'BV') { v.type = 'binary'; v.lb = 0; v.ub = 1; } else if (type === 'LI') { v.type = 'integer'; v.lb = val; }
+        else if (type === 'UI') { v.type = 'integer'; v.ub = val; } else if (type === 'SC') { v.type = 'semicontinuous'; v.lb = val || 1; }
+      }
+    }
+    const rhs = rhsSets.get(activeRhs) || new Map(), ranges = rangeSets.get(activeRange) || new Map();
+    const objective = { sense: objSense, coefficients: {}, constant: 0, name: objRow || 'obj' };
+    const constraints = [];
+    const rowIndex = new Map();
+    for (const rn of rowOrder) {
+      const type = rowType.get(rn); if (type === 'N') continue;
+      const sense = type === 'L' ? '<=' : type === 'G' ? '>=' : '=';
+      rowIndex.set(rn, constraints.length); constraints.push({ name: rn, sense, rhs: rhs.get(rn) || 0, coefficients: {} });
+    }
+    for (const [vn, col] of columns) for (const [rn, a] of col) {
+      if (rn === objRow) objective.coefficients[vn] = (objective.coefficients[vn] || 0) + a;
+      else if (rowIndex.has(rn)) constraints[rowIndex.get(rn)].coefficients[vn] = a;
+    }
+    // RANGES convert one ranged row into two explicit constraints.
+    const expanded = [];
+    for (const c of constraints) {
+      const r = ranges.get(c.name);
+      if (r == null || Math.abs(r) < 1e-15) { expanded.push(c); continue; }
+      const width = Math.abs(r), b = c.rhs;
+      if (c.sense === '=') {
+        if (r >= 0) { expanded.push({ ...c, name: c.name + '$lo', sense: '>=', rhs: b }); expanded.push({ ...c, name: c.name + '$hi', sense: '<=', rhs: b + width }); }
+        else { expanded.push({ ...c, name: c.name + '$lo', sense: '>=', rhs: b - width }); expanded.push({ ...c, name: c.name + '$hi', sense: '<=', rhs: b }); }
+      } else if (c.sense === '<=') { expanded.push({ ...c, name: c.name + '$lo', sense: '>=', rhs: b - width }); expanded.push(c); }
+      else { expanded.push(c); expanded.push({ ...c, name: c.name + '$hi', sense: '<=', rhs: b + width }); }
+    }
+    return { schema: 'canonical-lp-v1', name: modelName, sourceFormat: 'mps', objective, variables: Array.from(bounds.values()), constraints: expanded, metadata: { rhsSet: activeRhs, rangeSet: activeRange, boundSet: activeBound } };
+  }
+
+  function parseByExtension(text, filename = '') {
+    const ext = filename.toLowerCase().split('.').pop();
+    if (ext === 'json') return JSON.parse(text);
+    if (ext === 'mps' || /^\s*NAME\b/m.test(text)) return parseMPS(text, filename || 'model');
+    if (ext === 'lp' || /^\s*(minimize|maximize|minimum|maximum)\b/im.test(text)) return parseLP(text, filename || 'model');
+    try { return JSON.parse(text); } catch (_) {}
+    throw new Error('Unrecognized model format; use JSON, MPS, or CPLEX-LP');
+  }
+
+  function toLP(model) {
+    const obj = model.objective || { sense: 'min', coefficients: {} };
+    const term = (coef, name, first) => {
+      const sign = coef < 0 ? '-' : first ? '' : '+'; const a = Math.abs(coef); return `${sign} ${a === 1 ? '' : a + ' '}${name}`.trim();
+    };
+    const expr = coeffs => { let first = true, s = ''; for (const [n, a] of Object.entries(coeffs || {})) if (Math.abs(a) > 1e-15) { s += (s ? ' ' : '') + term(a, n, first); first = false; } return s || '0'; };
+    const lines = [obj.sense === 'max' ? 'Maximize' : 'Minimize', ` ${obj.name || 'obj'}: ${expr(obj.coefficients)}`, 'Subject To'];
+    for (const c of model.constraints || []) lines.push(` ${c.name}: ${expr(c.coefficients)} ${c.sense} ${c.rhs}`);
+    lines.push('Bounds');
+    for (const v of model.variables || []) {
+      if (!Number.isFinite(v.lb) && !Number.isFinite(v.ub)) lines.push(` ${v.name} free`);
+      else if (Number.isFinite(v.lb) && Number.isFinite(v.ub)) lines.push(` ${v.lb} <= ${v.name} <= ${v.ub}`);
+      else if (Number.isFinite(v.lb)) lines.push(` ${v.name} >= ${v.lb}`); else lines.push(` ${v.name} <= ${v.ub}`);
+    }
+    const bins = (model.variables || []).filter(v => v.type === 'binary').map(v => v.name), ints = (model.variables || []).filter(v => v.type === 'integer').map(v => v.name);
+    if (bins.length) lines.push('Binaries', ' ' + bins.join(' ')); if (ints.length) lines.push('Generals', ' ' + ints.join(' ')); lines.push('End');
+    return lines.join('\n');
+  }
+
+  return { parseLP, parseMPS, parseByExtension, parseLinearExpression, toLP };
+});
+
+</script>
+<script type="text/plain" id="fl-src-2" data-filename="model_solver.js">
+(function (root, factory) {
+  const api = factory(root.FlowLatticeCore || (typeof require !== 'undefined' ? require('./flowlattice_core.js') : null));
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  root.FlowLatticeModelSolver = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (Core) {
+  'use strict';
+  const { EPS, INF, MinCostFlow, solveDenseLP, cloneJSON, now } = Core;
+
+  function summarizeCanonical(model) {
+    const vars = model.variables || [], rows = model.constraints || [];
+    return {
+      name: model.name || 'model', format: model.sourceFormat || model.schema || 'canonical',
+      variables: vars.length, constraints: rows.length,
+      integerVariables: vars.filter(v => v.type === 'integer' || v.type === 'binary').length,
+      nonzeros: rows.reduce((s, r) => s + Object.keys(r.coefficients || {}).length, 0),
+      objectiveSense: model.objective?.sense || 'min'
+    };
+  }
+
+  function detectIncidenceNetwork(model) {
+    const rows = model.constraints || [], vars = model.variables || [];
+    if (!rows.length || rows.some(r => r.sense !== '=')) return { ok: false, reason: 'network detection requires equality balance rows' };
+    const rix = new Map(rows.map((r, i) => [r.name, i]));
+    const occ = new Map(vars.map(v => [v.name, []]));
+    for (let i = 0; i < rows.length; i++) for (const [vn, a0] of Object.entries(rows[i].coefficients || {})) {
+      const a = +a0; if (Math.abs(a) > EPS) { if (!occ.has(vn)) occ.set(vn, []); occ.get(vn).push([i, a]); }
+    }
+    const arcs = [];
+    for (const v of vars) {
+      const o = occ.get(v.name) || [];
+      if (o.length !== 2) return { ok: false, reason: `variable ${v.name} has ${o.length} balance coefficients` };
+      const p = o.find(x => Math.abs(x[1] - 1) <= EPS), n = o.find(x => Math.abs(x[1] + 1) <= EPS);
+      if (!p || !n) return { ok: false, reason: `variable ${v.name} is not a +1/-1 incidence column` };
+      // Convention: outgoing +1, incoming -1, matching row RHS supply.
+      arcs.push({ name: v.name, u: p[0], v: n[0], lb: Number.isFinite(v.lb) ? v.lb : 0, ub: Number.isFinite(v.ub) ? v.ub : INF, cost: +(model.objective?.coefficients?.[v.name] || 0) });
+    }
+    const supply = rows.map(r => +r.rhs || 0);
+    if (Math.abs(supply.reduce((a, b) => a + b, 0)) > 1e-7) return { ok: false, reason: 'node supplies do not sum to zero' };
+    return { ok: true, kind: 'incidence-network', nodes: rows.map(r => r.name), arcs, supply };
+  }
+
+  function detectTransportation(model) {
+    const rows = model.constraints || [], vars = model.variables || [];
+    const supplyRows = rows.filter(r => r.sense === '<='), demandRows = rows.filter(r => r.sense === '>=');
+    if (!supplyRows.length || !demandRows.length || supplyRows.length + demandRows.length !== rows.length) return { ok: false, reason: 'not a pure <= supply / >= demand transportation model' };
+    const sIndex = new Map(supplyRows.map((r, i) => [r.name, i])), dIndex = new Map(demandRows.map((r, i) => [r.name, i]));
+    const occ = new Map(vars.map(v => [v.name, []]));
+    for (const r of rows) for (const [vn, a] of Object.entries(r.coefficients || {})) if (Math.abs(a) > EPS) occ.get(vn)?.push([r, +a]);
+    const arcs = [];
+    for (const v of vars) {
+      const o = occ.get(v.name) || [];
+      if (o.length !== 2 || o.some(x => Math.abs(x[1] - 1) > EPS)) return { ok: false, reason: `variable ${v.name} is not a unit transportation column` };
+      const sr = o.find(x => sIndex.has(x[0].name)), dr = o.find(x => dIndex.has(x[0].name));
+      if (!sr || !dr) return { ok: false, reason: `variable ${v.name} does not join supply to demand` };
+      arcs.push({ name: v.name, u: sIndex.get(sr[0].name), v: supplyRows.length + dIndex.get(dr[0].name), lb: Number.isFinite(v.lb) ? v.lb : 0, ub: Number.isFinite(v.ub) ? v.ub : INF, cost: +(model.objective?.coefficients?.[v.name] || 0) });
+    }
+    const totalSupply = supplyRows.reduce((s, r) => s + (+r.rhs || 0), 0), totalDemand = demandRows.reduce((s, r) => s + (+r.rhs || 0), 0);
+    if (totalSupply + 1e-7 < totalDemand) return { ok: false, reason: 'total supply below total demand' };
+    const supply = new Array(supplyRows.length + demandRows.length + 1).fill(0), dump = supply.length - 1;
+    for (let i = 0; i < supplyRows.length; i++) supply[i] = +supplyRows[i].rhs || 0;
+    for (let i = 0; i < demandRows.length; i++) supply[supplyRows.length + i] = -(+demandRows[i].rhs || 0);
+    supply[dump] = -(totalSupply - totalDemand);
+    for (let i = 0; i < supplyRows.length; i++) arcs.push({ name: `$unused_${i}`, u: i, v: dump, lb: 0, ub: +supplyRows[i].rhs || 0, cost: 0, internal: true });
+    return { ok: true, kind: 'transportation', nodes: [...supplyRows.map(r => r.name), ...demandRows.map(r => r.name), '$unused'], arcs, supply };
+  }
+
+  function solveNetworkDetection(det) {
+    const mcf = new MinCostFlow(det.nodes.length);
+    const ids = [];
+    for (const a of det.arcs) ids.push(mcf.addArc(a.u, a.v, a.ub, a.cost, a, a.lb || 0));
+    const r = mcf.solve(det.supply);
+    const values = {};
+    for (const a of r.arcs) if (a.tag && !a.tag.internal) values[a.tag.name] = a.flow;
+    return { status: r.status, objective: r.cost, values, method: det.kind === 'transportation' ? 'transportation-min-cost-flow' : 'incidence-min-cost-flow', certificate: r.cut, seconds: r.seconds, augmentations: r.augmentations };
+  }
+
+  function fractionalInteger(values, variables, tol = 1e-7) {
+    let best = null;
+    for (const v of variables) if (v.type === 'integer' || v.type === 'binary') {
+      const x = values[v.name] || 0, frac = Math.abs(x - Math.round(x));
+      if (frac > tol && (!best || frac > best.frac)) best = { variable: v, value: x, frac };
+    }
+    return best;
+  }
+
+  function solveBranchAndBound(model, options = {}) {
+    const started = now(), maxNodes = options.maxNodes || 2000, timeLimit = (options.timeLimitSeconds || 10) * 1000;
+    const minimize = (model.objective?.sense || 'min') !== 'max';
+    let incumbent = null, nodes = 0, bestBound = minimize ? INF : -INF;
+    const stack = [{ model: cloneJSON(model), depth: 0 }];
+    while (stack.length && nodes < maxNodes && now() - started < timeLimit) {
+      const node = stack.pop(); nodes++;
+      const lp = solveDenseLP(node.model, options);
+      if (lp.status !== 'optimal') continue;
+      bestBound = minimize ? Math.min(bestBound, lp.objective) : Math.max(bestBound, lp.objective);
+      if (incumbent && (minimize ? lp.objective >= incumbent.objective - 1e-8 : lp.objective <= incumbent.objective + 1e-8)) continue;
+      const f = fractionalInteger(lp.values, node.model.variables || []);
+      if (!f) { incumbent = { objective: lp.objective, values: lp.values }; continue; }
+      const lo = Math.floor(f.value), hi = Math.ceil(f.value), vn = f.variable.name;
+      const left = cloneJSON(node.model), right = cloneJSON(node.model);
+      left.variables.find(v => v.name === vn).ub = Math.min(left.variables.find(v => v.name === vn).ub, lo);
+      right.variables.find(v => v.name === vn).lb = Math.max(right.variables.find(v => v.name === vn).lb, hi);
+      if (right.variables.find(v => v.name === vn).lb <= right.variables.find(v => v.name === vn).ub + EPS) stack.push({ model: right, depth: node.depth + 1 });
+      if (left.variables.find(v => v.name === vn).lb <= left.variables.find(v => v.name === vn).ub + EPS) stack.push({ model: left, depth: node.depth + 1 });
+    }
+    return incumbent ? { status: stack.length ? 'feasible' : 'optimal', objective: incumbent.objective, values: incumbent.values, method: 'dense-branch-and-bound', nodes, bestBound, gap: Math.abs(incumbent.objective - bestBound) / Math.max(1, Math.abs(incumbent.objective)), seconds: (now() - started) / 1000 } : { status: 'infeasible_or_limit', method: 'dense-branch-and-bound', nodes, seconds: (now() - started) / 1000 };
+  }
+
+  function analyzeCanonical(model) {
+    const summary = summarizeCanonical(model), incidence = detectIncidenceNetwork(model), transport = incidence.ok ? null : detectTransportation(model);
+    let recommended = incidence.ok ? 'incidence-min-cost-flow' : transport?.ok ? 'transportation-min-cost-flow' : summary.integerVariables ? 'dense-branch-and-bound' : 'dense-simplex';
+    return { summary, incidence, transportation: transport, recommended, warnings: recommended.startsWith('dense') && summary.variables * summary.constraints > 8e6 ? ['General dense fallback is too large; reformulate as FlowLattice JSON or a network model.'] : [] };
+  }
+
+  function solveCanonical(model, options = {}) {
+    const method = options.method || 'auto', analysis = analyzeCanonical(model);
+    if (method === 'auto' || method === 'network') {
+      if (analysis.incidence.ok) return Object.assign(solveNetworkDetection(analysis.incidence), { analysis });
+      if (analysis.transportation?.ok) return Object.assign(solveNetworkDetection(analysis.transportation), { analysis });
+      if (method === 'network') return { status: 'unsupported', reason: analysis.incidence.reason + '; ' + (analysis.transportation?.reason || ''), analysis };
+    }
+    const hasInt = (model.variables || []).some(v => v.type === 'integer' || v.type === 'binary');
+    if ((method === 'auto' && hasInt) || method === 'milp') return Object.assign(solveBranchAndBound(model, options), { analysis });
+    return Object.assign(solveDenseLP(model, options), { method: 'dense-simplex', analysis });
+  }
+
+  return { summarizeCanonical, detectIncidenceNetwork, detectTransportation, analyzeCanonical, solveCanonical, solveBranchAndBound };
+});
+
+</script>
+<script type="text/plain" id="fl-src-3" data-filename="bitmatrix_engine.js">
+(function (root, factory) {
+  const api = factory(root.FlowLatticeCore || (typeof require !== 'undefined' ? require('./flowlattice_core.js') : null));
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  root.FlowLatticeBitMatrix = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (Core) {
+  'use strict';
+  const { EPS, INF, BinaryHeap, now } = Core;
+
+  function iterSetBits(mask) {
+    const out = [];
+    let i = 0n, m = BigInt(mask);
+    while (m) { const lsb = m & -m; let bit = 0n, x = lsb; while (x > 1n) { x >>= 1n; bit++; } out.push(Number(bit)); m ^= lsb; i++; }
+    return out;
+  }
+
+  function planesFromEntries(entries, minPlanes = 1) {
+    let max = 0; for (const [, q] of entries) max = Math.max(max, Math.trunc(q));
+    const width = Math.max(minPlanes, Math.max(1, max.toString(2).length));
+    const planes = Array(width).fill(0n);
+    for (const [lane, qty0] of entries) {
+      let q = BigInt(Math.trunc(qty0)), b = 0; const bit = 1n << BigInt(lane);
+      while (q) { if (q & 1n) planes[b] |= bit; q >>= 1n; b++; }
+    }
+    return planes;
+  }
+
+  function bitslicedAddInPlace(acc, add) {
+    const width = Math.max(acc.length, add.length); while (acc.length < width) acc.push(0n);
+    let carry = 0n;
+    for (let b = 0; b < width; b++) {
+      const a = acc[b], x = add[b] || 0n, s = a ^ x ^ carry;
+      carry = (a & x) | (a & carry) | (x & carry); acc[b] = s;
+    }
+    let b = width;
+    while (carry) { const a = acc[b] || 0n; acc[b] = a ^ carry; carry = a & carry; b++; }
+  }
+
+  function bitslicedScale(planes, coefficient) {
+    let c = BigInt(coefficient); if (c < 0n) throw new Error('negative bit-sliced scale');
+    const out = []; let shift = 0;
+    while (c) { if (c & 1n) bitslicedAddInPlace(out, Array(shift).fill(0n).concat(planes)); c >>= 1n; shift++; }
+    return out;
+  }
+
+  function decodeLane(planes, lane) {
+    const bit = 1n << BigInt(lane); let out = 0n;
+    for (let b = 0; b < planes.length; b++) if (planes[b] & bit) out |= 1n << BigInt(b);
+    return Number(out);
+  }
+
+  function blockedPlanesFromEntries(entries, blockSize = 1024) {
+    const groups = new Map();
+    for (const [lane, qty] of entries) { const bi = Math.floor(lane / blockSize), local = lane % blockSize; if (!groups.has(bi)) groups.set(bi, []); groups.get(bi).push([local, qty]); }
+    const out = new Map(); for (const [bi, e] of groups) out.set(bi, planesFromEntries(e)); return out;
+  }
+
+  function blockedAddInPlace(acc, add) {
+    for (const [bi, p] of add) { if (!acc.has(bi)) acc.set(bi, p.slice()); else bitslicedAddInPlace(acc.get(bi), p); }
+  }
+
+  function decodeBlockedLane(blocks, lane, blockSize = 1024) {
+    const bi = Math.floor(lane / blockSize), local = lane % blockSize; return decodeLane(blocks.get(bi) || [], local);
+  }
+
+  function compactBytes(edgeBlocks, blockSize = 1024) {
+    const bytes = Math.ceil(blockSize / 8); let n = 0;
+    for (const blocks of edgeBlocks.values()) for (const p of blocks.values()) n += bytes * p.length;
+    return n;
+  }
+
+  class TimeExpandedGraph {
+    constructor(F, H, lanes, defaultHoldCost = 0) {
+      this.F = F | 0; this.H = H | 0; this.N = this.F * this.H; this.lanes = lanes || []; this.arcs = []; this.out = Array.from({ length: this.N }, () => []);
+      const add = (u, v, baseCost, kind, meta) => { const eid = this.arcs.length, a = { eid, u, v, baseCost: +baseCost, kind, ...meta }; this.arcs.push(a); this.out[u].push(a); };
+      for (let v = 0; v < this.F; v++) for (let t = 0; t < this.H - 1; t++) add(t * this.F + v, (t + 1) * this.F + v, defaultHoldCost, 'inventory', { facility: v, t });
+      this.lanes.forEach((l, li) => { const tau = Math.max(1, l.tau == null ? 1 : l.tau | 0); for (let t = 0; t + tau < this.H; t++) add(t * this.F + l.u, (t + tau) * this.F + l.v, +l.cost || 0, 'transport', { lane: li, t, tau }); });
+    }
+    node(v, t) { return (t | 0) * this.F + (v | 0); }
+    shortestTree(source, profile = { hold: 1, transport: 1 }) {
+      const dist = new Float64Array(this.N); dist.fill(INF); dist[source] = 0;
+      const pred = new Int32Array(this.N); pred.fill(-1); const heap = new BinaryHeap((a, b) => a[0] - b[0]); heap.push([0, source]);
+      while (heap.size) {
+        const [du, u] = heap.pop(); if (du > dist[u] + EPS) continue;
+        for (const a of this.out[u]) {
+          const mult = a.kind === 'inventory' ? profile.hold : profile.transport, c = a.baseCost * mult, nd = du + c;
+          if (nd < dist[a.v] - EPS) { dist[a.v] = nd; pred[a.v] = a.eid; heap.push([nd, a.v]); }
+        }
+      }
+      return { source, dist, pred, profile };
+    }
+    path(tree, target) {
+      if (!Number.isFinite(tree.dist[target])) return null;
+      const path = []; let v = target;
+      while (v !== tree.source) { const eid = tree.pred[v]; if (eid < 0) return null; path.push(eid); v = this.arcs[eid].u; }
+      path.reverse(); return path;
+    }
+  }
+
+  function analyzeFastPath(model) {
+    const reasons = [];
+    if (model.schema !== 'flowlattice-algebraic-v2') reasons.push('not a FlowLattice algebraic-v2 model');
+    if ((model.recipes || []).length) reasons.push('recipes require the hybrid event solver');
+    if (model.resources && Object.keys(model.resources).length) reasons.push('shared resources require the hybrid event solver');
+    if ((model.lanes || []).some(l => l.capacity != null || l.resources || l.charge)) reasons.push('shared lane capacities/resources are coupled');
+    const sources = [];
+    for (const c of model.commodities || []) {
+      const inv = c.inventory || [], proc = c.procurement || [];
+      if (proc.length) reasons.push(`commodity ${c.id} has procurement choices`);
+      if (inv.length !== 1) reasons.push(`commodity ${c.id} must have exactly one inventory source`);
+      if (!(c.demands || []).length) reasons.push(`commodity ${c.id} has no demand`);
+      if (inv.length === 1 && (c.demands || []).some(d => d.t < inv[0].t)) reasons.push(`commodity ${c.id} has demand before release`);
+      sources.push(inv[0] || null);
+    }
+    return { ok: reasons.length === 0, reasons, commodities: (model.commodities || []).length, densityHint: (model.commodities || []).length / Math.max(1, new Set(sources.filter(Boolean).map(s => `${s.v}@${s.t}`)).size) };
+  }
+
+  function solveBitMatrix(model, options = {}) {
+    const t0 = now(), analysis = analyzeFastPath(model);
+    if (!analysis.ok) return { status: 'unsupported', method: 'packed-bitmatrix', analysis, reason: analysis.reasons.join('; ') };
+    const F = model.F | 0, H = model.H | 0, blockSize = options.blockSize || 1024;
+    const graph = new TimeExpandedGraph(F, H, model.lanes || [], +(model.default_hold_cost || 0));
+    const treeCache = new Map(), edgeBlocks = new Map(), routes = [], infeasible = [];
+    let objective = 0, routedQuantity = 0;
+    const commodities = model.commodities || [];
+    for (let ci = 0; ci < commodities.length; ci++) {
+      const c = commodities[ci], sourceEvent = c.inventory[0], source = graph.node(sourceEvent.v, sourceEvent.t);
+      const profile = { hold: c.hold_cost == null ? 1 : +c.hold_cost / Math.max(EPS, +(model.default_hold_cost || 1)), transport: c.transport_multiplier == null ? 1 : +c.transport_multiplier };
+      const key = `${source}|${profile.hold}|${profile.transport}`;
+      if (!treeCache.has(key)) treeCache.set(key, graph.shortestTree(source, profile)); const tree = treeCache.get(key);
+      let available = +sourceEvent.qty;
+      for (const d of c.demands || []) {
+        const q = +d.qty; available -= q; if (available < -EPS) { infeasible.push({ commodity: c.id, reason: 'demand exceeds source quantity' }); continue; }
+        const target = graph.node(d.v, d.t), path = graph.path(tree, target);
+        if (!path) { infeasible.push({ commodity: c.id, demand: d, reason: 'unreachable' }); continue; }
+        objective += q * tree.dist[target]; routedQuantity += q;
+        const packed = blockedPlanesFromEntries([[ci, Math.round(q)]], blockSize);
+        for (const eid of path) { if (!edgeBlocks.has(eid)) edgeBlocks.set(eid, new Map()); blockedAddInPlace(edgeBlocks.get(eid), packed); }
+        routes.push({ commodity: c.id, commodityIndex: ci, qty: q, source, target, cost: tree.dist[target], edgeIds: path });
+      }
+    }
+    if (infeasible.length) return { status: 'infeasible', method: 'packed-bitmatrix', analysis, infeasible, seconds: (now() - t0) / 1000 };
+    const edgeFlows = [];
+    for (const [eid, blocks] of edgeBlocks) {
+      const a = graph.arcs[eid], sparse = [];
+      if (options.materializeSparse !== false) for (let ci = 0; ci < commodities.length; ci++) { const q = decodeBlockedLane(blocks, ci, blockSize); if (q) sparse.push([commodities[ci].id, q]); }
+      edgeFlows.push({ eid, u: a.u, v: a.v, kind: a.kind, lane: a.lane, t: a.t, blocks: serializeBlocks(blocks), sparse });
+    }
+    return {
+      status: 'optimal', method: 'packed-bitmatrix', objective, routedQuantity, routes, edgeFlows,
+      graph: { nodes: graph.N, arcs: graph.arcs.length, treeCount: treeCache.size },
+      packedBytes: compactBytes(edgeBlocks, blockSize), blockSize, analysis, seconds: (now() - t0) / 1000
+    };
+  }
+
+  function serializeBlocks(blocks) {
+    const out = {}; for (const [bi, p] of blocks) out[bi] = p.map(x => x.toString(16)); return out;
+  }
+  function deserializeBlocks(obj) {
+    const out = new Map(); for (const [bi, p] of Object.entries(obj || {})) out.set(+bi, p.map(x => BigInt('0x' + x))); return out;
+  }
+
+  return {
+    iterSetBits, planesFromEntries, bitslicedAddInPlace, bitslicedScale, decodeLane,
+    blockedPlanesFromEntries, blockedAddInPlace, decodeBlockedLane, compactBytes,
+    TimeExpandedGraph, analyzeFastPath, solveBitMatrix, serializeBlocks, deserializeBlocks
+  };
+});
+
+</script>
+<script type="text/plain" id="fl-src-4" data-filename="lot_engine.js">
+(function (root, factory) {
+  const api = factory(
+    root.FlowLatticeCore || (typeof require !== 'undefined' ? require('./flowlattice_core.js') : null),
+    root.FlowLatticeBitMatrix || (typeof require !== 'undefined' ? require('./bitmatrix_engine.js') : null)
+  );
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  root.FlowLatticeLot = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (Core, Bit) {
+  'use strict';
+  const { EPS, MinCostFlow, now, cid128 } = Core;
+  const { TimeExpandedGraph } = Bit;
+
+  function compilePhysicalLots(lots) {
+    const groups = new Map();
+    for (let i = 0; i < lots.length; i++) {
+      const l = lots[i], key = JSON.stringify([
+        l.commodity, l.source_node ?? `${l.facility}@${l.release_period || 0}`,
+        l.release_period || 0, l.expiry_period ?? Number.MAX_SAFE_INTEGER,
+        l.quality || 0, l.origin || 0, l.unit_qty == null ? 1 : l.unit_qty,
+        l.cost_class || 0, l.constraint_signature || ''
+      ]);
+      if (!groups.has(key)) groups.set(key, { ...l, lot_ids: [] });
+      groups.get(key).lot_ids.push(l.id || cid128(`lot:${i}:${key}`));
+    }
+    const classes = [], basis = [];
+    for (const g of groups.values()) {
+      const class_id = classes.length, basis_start = basis.length; basis.push(...g.lot_ids);
+      classes.push({
+        class_id, commodity: g.commodity,
+        source_node: g.source_node, facility: g.facility, release_period: g.release_period || 0,
+        expiry_period: g.expiry_period ?? Number.MAX_SAFE_INTEGER, quality: g.quality || 0,
+        origin: g.origin || 0, unit_qty: g.unit_qty == null ? 1 : g.unit_qty,
+        count: g.lot_ids.length, basis_start, producer_event: g.producer_event ?? -1
+      });
+    }
+    return { classes, basis };
+  }
+
+  function normalizeLotModel(model) {
+    const g = model.graph || model;
+    const graph = new TimeExpandedGraph(g.F || model.F, g.H || model.H, g.lanes || model.lanes || [], g.hold_cost ?? model.default_hold_cost ?? 0);
+    let compiled = model.lots ? compilePhysicalLots(model.lots) : { classes: (model.lot_classes || model.classes || []).map((c, i) => ({ class_id: c.class_id ?? i, basis_start: c.basis_start ?? 0, unit_qty: c.unit_qty ?? 1, quality: c.quality || 0, origin: c.origin || 0, release_period: c.release_period || 0, expiry_period: c.expiry_period ?? Number.MAX_SAFE_INTEGER, ...c })), basis: model.basis || [] };
+    let cursor = 0;
+    for (const c of compiled.classes) {
+      if (c.source_node == null) c.source_node = graph.node(c.facility, c.release_period || 0);
+      if (c.basis_start == null) c.basis_start = cursor;
+      cursor = Math.max(cursor, c.basis_start + c.count);
+    }
+    const demands = (model.demands || []).map((d, i) => ({
+      demand_id: d.demand_id ?? i, commodity: d.commodity,
+      target_node: d.target_node == null ? graph.node(d.facility, d.target_period || 0) : d.target_node,
+      target_period: d.target_period == null ? Math.floor((d.target_node || 0) / graph.F) : d.target_period,
+      min_quality: d.min_quality || 0, allowed_origins: d.allowed_origins == null ? -1n : typeof d.allowed_origins === 'string' ? BigInt(d.allowed_origins) : BigInt(d.allowed_origins),
+      count: d.count, event_id: d.event_id ?? -1, kind: d.kind || 'external'
+    }));
+    return { graph, classes: compiled.classes, basis: compiled.basis, demands, freshnessWeight: model.freshness_weight == null ? 1 : model.freshness_weight };
+  }
+
+  function buildEligibility(normal) {
+    const { graph, classes, demands } = normal, D = demands.length;
+    const commodityMasks = new Map(), originMasks = new Map();
+    let maxQuality = 0, maxPeriod = 0;
+    for (const d of demands) {
+      const bit = 1n << BigInt(d.demand_id); commodityMasks.set(d.commodity, (commodityMasks.get(d.commodity) || 0n) | bit);
+      maxQuality = Math.max(maxQuality, d.min_quality); maxPeriod = Math.max(maxPeriod, d.target_period);
+      if (d.allowed_origins < 0n) originMasks.set('*', (originMasks.get('*') || 0n) | bit);
+      else {
+        let m = d.allowed_origins, o = 0; while (m) { if (m & 1n) originMasks.set(o, (originMasks.get(o) || 0n) | bit); m >>= 1n; o++; }
+      }
+    }
+    const qualityMasks = Array(maxQuality + 2).fill(0n), periodMasks = Array(Math.max(maxPeriod, graph.H - 1) + 2).fill(0n);
+    for (let q = 0; q < qualityMasks.length; q++) for (const d of demands) if (d.min_quality <= q) qualityMasks[q] |= 1n << BigInt(d.demand_id);
+    for (let t = 0; t < periodMasks.length; t++) for (const d of demands) if (d.target_period <= t) periodMasks[t] |= 1n << BigInt(d.demand_id);
+    const sources = [...new Set(classes.map(c => c.source_node))], trees = new Map(); for (const s of sources) trees.set(s, graph.shortestTree(s, { hold: 1, transport: 1 }));
+    const reachableMasks = new Map();
+    for (const s of sources) { let m = 0n; const tr = trees.get(s); for (const d of demands) if (Number.isFinite(tr.dist[d.target_node])) m |= 1n << BigInt(d.demand_id); reachableMasks.set(s, m); }
+    function eligibleMask(c) {
+      const q = Math.min(c.quality, qualityMasks.length - 1), t = Math.min(c.expiry_period, periodMasks.length - 1);
+      return (commodityMasks.get(c.commodity) || 0n) & qualityMasks[q] & periodMasks[t] & ((originMasks.get(c.origin) || 0n) | (originMasks.get('*') || 0n)) & (reachableMasks.get(c.source_node) || 0n);
+    }
+    function cost(c, d) { const route = trees.get(c.source_node).dist[d.target_node], slack = Math.max(0, c.expiry_period - d.target_period); return route + normal.freshnessWeight * slack; }
+    return { eligibleMask, cost, trees, masks: { commodityMasks, qualityMasks, periodMasks, originMasks, reachableMasks } };
+  }
+
+  function bitIndices(mask) {
+    const out = []; let i = 0; while (mask) { if (mask & 1n) out.push(i); mask >>= 1n; i++; } return out;
+  }
+
+  function solveLotQuotient(model, options = {}) {
+    const started = now(), normal = normalizeLotModel(model), idx = buildEligibility(normal), { classes, demands } = normal;
+    const S = classes.length, D = demands.length, source = 0, supply0 = 1, demand0 = supply0 + S, sink = demand0 + D;
+    const mcf = new MinCostFlow(sink + 1), allocationIds = new Map(); let eligibleArcs = 0;
+    for (const c of classes) mcf.addArc(source, supply0 + c.class_id, c.count, 0, { kind: 'class-supply', class_id: c.class_id });
+    for (const c of classes) for (const did of bitIndices(idx.eligibleMask(c))) {
+      const d = demands[did], cap = Math.min(c.count, d.count), aid = mcf.addArc(supply0 + c.class_id, demand0 + did, cap, idx.cost(c, d), { kind: 'allocation', class_id: c.class_id, demand_id: did }); allocationIds.set(aid, [c.class_id, did]); eligibleArcs++;
+    }
+    for (const d of demands) mcf.addArc(demand0 + d.demand_id, sink, d.count, 0, { kind: 'demand', demand_id: d.demand_id });
+    const totalDemand = demands.reduce((s, d) => s + d.count, 0), supply = new Array(sink + 1).fill(0); supply[source] = totalDemand; supply[sink] = -totalDemand;
+    const r = mcf.solve(supply), allocations = [], slices = [], cursor = new Array(S).fill(0);
+    if (r.status === 'optimal') for (const a of r.arcs) if (a.tag?.kind === 'allocation' && a.flow > EPS) {
+      const q = Math.round(a.flow); allocations.push([a.tag.class_id, a.tag.demand_id, q]); slices.push({ class_id: a.tag.class_id, demand_id: a.tag.demand_id, offset: cursor[a.tag.class_id], count: q }); cursor[a.tag.class_id] += q;
+    }
+    return {
+      status: r.status, objective: r.cost, method: 'lot-equivalence-quotient', seconds: (now() - started) / 1000,
+      lotCount: classes.reduce((s, c) => s + c.count, 0), demandCount: totalDemand, lotClasses: S, demandClasses: D,
+      eligibleClassArcs: eligibleArcs, compressedSlices: slices.length, allocations, slices, certificate: r.cut,
+      basis: options.includeBasis ? normal.basis : undefined
+    };
+  }
+
+  function liftSlices(model, plan) {
+    const normal = normalizeLotModel(model), basis = normal.basis, byClass = new Map(normal.classes.map(c => [c.class_id, c]));
+    return (plan.slices || []).map(s => {
+      const c = byClass.get(s.class_id); if (!c) throw new Error(`unknown class ${s.class_id}`);
+      const start = c.basis_start + s.offset;
+      const lot_ids = basis.length ? basis.slice(start, start + s.count) : null;
+      return { ...s, canonical_range: [`${s.class_id}:${s.offset}`, `${s.class_id}:${s.offset + s.count}`], lot_ids };
+    });
+  }
+
+  function auditLift(lifted) {
+    const seen = new Set(); let count = 0;
+    for (const a of lifted) if (a.lot_ids) for (const id of a.lot_ids) { if (seen.has(id)) return { ok: false, error: `lot assigned twice: ${id}` }; seen.add(id); count++; }
+    return { ok: true, assigned: count, compressedSlices: lifted.length };
+  }
+
+  return { compilePhysicalLots, normalizeLotModel, buildEligibility, solveLotQuotient, liftSlices, auditLift };
+});
+
+</script>
+<script type="text/plain" id="fl-src-5" data-filename="hybrid_engine.js">
+(function (root, factory) {
+  const api = factory(
+    root.FlowLatticeCore || (typeof require !== 'undefined' ? require('./flowlattice_core.js') : null),
+    root.FlowLatticeBitMatrix || (typeof require !== 'undefined' ? require('./bitmatrix_engine.js') : null),
+    root.FlowLatticeLot || (typeof require !== 'undefined' ? require('./lot_engine.js') : null),
+    root.FlowLatticeModelSolver || (typeof require !== 'undefined' ? require('./model_solver.js') : null)
+  );
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  root.FlowLatticeHybrid = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (Core, Bit, Lot, ModelSolver) {
+  'use strict';
+  const { EPS, INF, MinCostFlow, now } = Core;
+  const { TimeExpandedGraph, analyzeFastPath, solveBitMatrix } = Bit;
+
+  function capAt(cap, t) {
+    if (cap == null) return INF;
+    if (Array.isArray(cap)) return cap[t] == null ? INF : +cap[t];
+    return +cap;
+  }
+
+  function hasCoupling(model) {
+    return (model.recipes || []).length > 0 || (model.resources && Object.keys(model.resources).length > 0) ||
+      (model.lanes || []).some(l => l.capacity != null || l.resources || l.charge) ||
+      Object.keys(model.warehouses || {}).length > 0;
+  }
+
+  function solveIndependentCommodityNetworks(model, options = {}) {
+    const started = now(), F = model.F | 0, H = model.H | 0;
+    const graph = new TimeExpandedGraph(F, H, model.lanes || [], +(model.default_hold_cost || 0));
+    const results = [], edgeVectors = new Map(); let objective = 0;
+    for (const c of model.commodities || []) {
+      const N = graph.N + 2, S = graph.N, T = S + 1, mcf = new MinCostFlow(N), arcMap = [];
+      for (const a of graph.arcs) {
+        const mult = a.kind === 'inventory' ? (c.hold_cost == null ? 1 : +c.hold_cost / Math.max(EPS, +(model.default_hold_cost || 1))) : (c.transport_multiplier == null ? 1 : +c.transport_multiplier);
+        const id = mcf.addArc(a.u, a.v, INF, a.baseCost * mult, { kind: 'graph', eid: a.eid, commodity: c.id }); arcMap.push(id);
+      }
+      for (const s of c.inventory || []) mcf.addArc(S, graph.node(s.v, s.t), +s.qty, +(s.cost || 0), { kind: 'inventory-source', commodity: c.id, event: s });
+      for (const p of c.procurement || []) mcf.addArc(S, graph.node(p.v, p.t), capAt(p.cap, p.t), +(p.cost || 0), { kind: 'procurement', commodity: c.id, event: p });
+      let demand = 0;
+      for (const d of c.demands || []) { demand += +d.qty; mcf.addArc(graph.node(d.v, d.t), T, +d.qty, 0, { kind: 'demand', commodity: c.id, event: d }); }
+      const supply = new Array(N).fill(0); supply[S] = demand; supply[T] = -demand;
+      const r = mcf.solve(supply); if (r.status !== 'optimal') return { status: r.status, method: 'independent-commodity-mcf', commodity: c.id, certificate: r.cut, seconds: (now() - started) / 1000 };
+      objective += r.cost; const flows = [];
+      for (const a of r.arcs) if (a.tag?.kind === 'graph' && a.flow > EPS) {
+        flows.push({ eid: a.tag.eid, qty: a.flow }); if (!edgeVectors.has(a.tag.eid)) edgeVectors.set(a.tag.eid, {}); edgeVectors.get(a.tag.eid)[c.id] = a.flow;
+      }
+      results.push({ commodity: c.id, objective: r.cost, flows, sourceFlows: r.arcs.filter(a => ['inventory-source','procurement'].includes(a.tag?.kind) && a.flow > EPS).map(a => ({ kind: a.tag.kind, event: a.tag.event, qty: a.flow })) });
+    }
+    return { status: 'optimal', method: 'independent-commodity-mcf', objective, commodityPlans: results, edgeFlows: Array.from(edgeVectors, ([eid, vector]) => ({ eid, vector })), graph: { nodes: graph.N, arcs: graph.arcs.length }, seconds: (now() - started) / 1000 };
+  }
+
+  function compileFlowLatticeLP(model) {
+    const F = model.F | 0, H = model.H | 0, graph = new TimeExpandedGraph(F, H, model.lanes || [], +(model.default_hold_cost || 0));
+    const variables = [], constraints = [], objective = { sense: 'min', coefficients: {}, constant: 0, name: 'plan_cost' };
+    const rowMap = new Map(), commodityMap = new Map((model.commodities || []).map((c, i) => [c.id, { ...c, index: i }]));
+    function rowKey(cid, node) { return `${cid}|${node}`; }
+    for (const c of model.commodities || []) for (let n = 0; n < graph.N; n++) {
+      const name = `bal[${c.id},${n}]`, row = { name, sense: '=', rhs: 0, coefficients: {} }; rowMap.set(rowKey(c.id, n), row); constraints.push(row);
+    }
+    function addVar(name, cost, lb, ub, type = 'continuous') { variables.push({ name, lb: lb == null ? 0 : lb, ub: ub == null ? INF : ub, type }); objective.coefficients[name] = +cost || 0; return name; }
+    function coef(cid, node, vn, a) { const r = rowMap.get(rowKey(cid, node)); r.coefficients[vn] = (r.coefficients[vn] || 0) + a; }
+
+    // Fixed supply/demand constants.
+    for (const c of model.commodities || []) {
+      for (const s of c.inventory || []) rowMap.get(rowKey(c.id, graph.node(s.v, s.t))).rhs -= +s.qty;
+      for (const d of c.demands || []) rowMap.get(rowKey(c.id, graph.node(d.v, d.t))).rhs += +d.qty;
+    }
+
+    // Commodity flow arcs.
+    const flowVars = [];
+    for (const c of model.commodities || []) {
+      const lot = c.integer_lot && +c.integer_lot > 0;
+      for (const a of graph.arcs) {
+        const mult = a.kind === 'inventory' ? (c.hold_cost == null ? 1 : +c.hold_cost / Math.max(EPS, +(model.default_hold_cost || 1))) : (c.transport_multiplier == null ? 1 : +c.transport_multiplier);
+        const vn = addVar(`f[${c.id},${a.eid}]`, a.baseCost * mult, 0, INF, lot ? 'integer' : 'continuous');
+        coef(c.id, a.u, vn, -1); coef(c.id, a.v, vn, 1); flowVars.push({ vn, c, a });
+      }
+      for (let i = 0; i < (c.procurement || []).length; i++) {
+        const p = c.procurement[i], vn = addVar(`p[${c.id},${i}]`, p.cost || 0, 0, capAt(p.cap, p.t), lot ? 'integer' : 'continuous'); coef(c.id, graph.node(p.v, p.t), vn, 1);
+      }
+      for (let i = 0; i < (c.disposal || []).length; i++) {
+        const d = c.disposal[i], vn = addVar(`w[${c.id},${i}]`, d.cost || 0, 0, capAt(d.cap, d.t), lot ? 'integer' : 'continuous'); coef(c.id, graph.node(d.v, d.t), vn, -1);
+      }
+    }
+
+    // Recipe columns and setup links.
+    for (let i = 0; i < (model.recipes || []).length; i++) {
+      const r = model.recipes[i], type = r.integer ? 'integer' : 'continuous', vn = addVar(`x[${r.id || i}]`, r.cost || 0, 0, capAt(r.cap, r.t), type);
+      for (const [cid, a] of Object.entries(r.stoich || {})) { if (!commodityMap.has(cid)) throw new Error(`recipe ${r.id || i} references unknown commodity ${cid}`); coef(cid, graph.node(r.v, r.t), vn, +a); }
+      if (r.setup_cost) {
+        const y = addVar(`y[${r.id || i}]`, r.setup_cost, 0, 1, 'binary'), M = Number.isFinite(capAt(r.cap, r.t)) ? capAt(r.cap, r.t) : 1e9;
+        constraints.push({ name: `setup[${r.id || i}]`, sense: '<=', rhs: 0, coefficients: { [vn]: 1, [y]: -M } });
+      }
+    }
+
+    // Shared lane capacities/charges.
+    for (const [li, l] of (model.lanes || []).entries()) if (l.capacity != null) for (let t = 0; t + Math.max(1, l.tau == null ? 1 : l.tau | 0) < H; t++) {
+      const arc = graph.arcs.find(a => a.kind === 'transport' && a.lane === li && a.t === t); if (!arc) continue;
+      const coeff = {};
+      for (const fv of flowVars) if (fv.a.eid === arc.eid) coeff[fv.vn] = l.charge ? +((fv.c.charges || {})[l.charge] || 0) : 1;
+      constraints.push({ name: `laneCap[${li},${t}]`, sense: '<=', rhs: capAt(l.capacity, t), coefficients: coeff });
+    }
+
+    // Warehouse capacities on inventory carry arcs.
+    for (const [vstr, meta] of Object.entries(model.warehouses || {})) {
+      const v = +vstr, capacity = meta.capacity ?? meta.cap, charge = meta.charge;
+      for (let t = 0; t < H - 1; t++) {
+        const arc = graph.arcs.find(a => a.kind === 'inventory' && a.facility === v && a.t === t); if (!arc) continue;
+        const coeff = {}; for (const fv of flowVars) if (fv.a.eid === arc.eid) coeff[fv.vn] = charge ? +((fv.c.charges || {})[charge] || 0) : 1;
+        constraints.push({ name: `warehouseCap[${v},${t}]`, sense: '<=', rhs: capAt(capacity, t), coefficients: coeff });
+      }
+    }
+
+    // Generic resource rows from procurement/recipe/lane metadata.
+    for (const [rid, meta] of Object.entries(model.resources || {})) {
+      const byT = Array.from({ length: H }, (_, t) => ({ name: `resource[${rid},${t}]`, sense: '<=', rhs: capAt(meta.cap ?? meta.capacity, t), coefficients: {} }));
+      for (let i = 0; i < (model.recipes || []).length; i++) { const r = model.recipes[i], use = r.resources?.[rid]; if (use != null) byT[r.t].coefficients[`x[${r.id || i}]`] = +use; }
+      for (const c of model.commodities || []) for (let i = 0; i < (c.procurement || []).length; i++) { const p = c.procurement[i], use = p.resources?.[rid]; if (use != null) byT[p.t].coefficients[`p[${c.id},${i}]`] = +use; }
+      constraints.push(...byT.filter(r => Object.keys(r.coefficients).length));
+    }
+
+    return { schema: 'canonical-lp-v1', name: model.name || 'FlowLattice plan', sourceFormat: 'flowlattice-json', objective, variables, constraints, metadata: { F, H, graphArcs: graph.arcs, commodityIds: [...commodityMap.keys()] } };
+  }
+
+  function analyzeFlowLattice(model) {
+    if (model.schema === 'flowlattice-lot-v1' || model.lots || model.lot_classes) return { recommended: 'lot-equivalence-quotient', lot: true, reasons: [] };
+    const bit = analyzeFastPath(model);
+    if (bit.ok && bit.densityHint >= 64) return { recommended: 'packed-bitmatrix', bitmatrix: bit, reasons: [] };
+    if (!hasCoupling(model)) return { recommended: bit.ok ? 'independent-commodity-mcf' : 'independent-commodity-mcf', bitmatrix: bit, reasons: bit.reasons };
+    const compiled = compileFlowLatticeLP(model), integers = compiled.variables.filter(v => v.type !== 'continuous').length;
+    return { recommended: integers ? 'coupled-milp' : 'coupled-lp', bitmatrix: bit, compiledSummary: ModelSolver.summarizeCanonical(compiled), reasons: bit.reasons };
+  }
+
+  function solveAdaptive(model, options = {}) {
+    const method = options.method || 'auto';
+    if (model.schema === 'canonical-lp-v1') return ModelSolver.solveCanonical(model, options);
+    if (model.schema === 'flowlattice-lot-v1' || model.lots || model.lot_classes || method === 'lot') return Lot.solveLotQuotient(model, options);
+    const analysis = analyzeFlowLattice(model), selected = method === 'auto' ? analysis.recommended : method;
+    if (selected === 'packed-bitmatrix' || selected === 'bitmatrix') return Object.assign(solveBitMatrix(model, options), { analysis });
+    if (selected === 'independent-commodity-mcf' || selected === 'network') return Object.assign(solveIndependentCommodityNetworks(model, options), { analysis });
+    const lp = compileFlowLatticeLP(model), solved = ModelSolver.solveCanonical(lp, { ...options, method: selected.includes('milp') ? 'milp' : 'lp' });
+    return Object.assign(solved, { method: selected, analysis, compiledModel: options.includeCompiledModel ? lp : undefined });
+  }
+
+  return { hasCoupling, solveIndependentCommodityNetworks, compileFlowLatticeLP, analyzeFlowLattice, solveAdaptive };
+});
+
+</script>
+<script type="text/plain" id="fl-src-6" data-filename="embedded_samples.js">
+globalThis.FlowLatticeSamples = {"samples/flowlattice_fastpath.json": "{\n  \"schema\": \"flowlattice-algebraic-v2\",\n  \"F\": 4,\n  \"H\": 5,\n  \"default_hold_cost\": 1,\n  \"lanes\": [\n    {\"u\": 0, \"v\": 1, \"tau\": 1, \"cost\": 2},\n    {\"u\": 1, \"v\": 2, \"tau\": 1, \"cost\": 1},\n    {\"u\": 2, \"v\": 3, \"tau\": 1, \"cost\": 1},\n    {\"u\": 0, \"v\": 3, \"tau\": 1, \"cost\": 5}\n  ],\n  \"commodities\": [\n    {\"id\": \"part-A\", \"inventory\": [{\"v\": 0, \"t\": 0, \"qty\": 11}], \"procurement\": [], \"demands\": [{\"v\": 3, \"t\": 4, \"qty\": 11}], \"disposal\": []},\n    {\"id\": \"part-B\", \"inventory\": [{\"v\": 0, \"t\": 0, \"qty\": 7}], \"procurement\": [], \"demands\": [{\"v\": 2, \"t\": 3, \"qty\": 7}], \"disposal\": []}\n  ],\n  \"recipes\": [],\n  \"resources\": {},\n  \"warehouses\": {}\n}\n", "samples/coupled_recipe.json": "{\n  \"schema\":\"flowlattice-algebraic-v2\",\n  \"name\":\"coupled-recipe-demo\",\n  \"F\":2,\n  \"H\":3,\n  \"default_hold_cost\":0.1,\n  \"resources\":{\"labor\":{\"cap\":[0,10,0]}},\n  \"lanes\":[{\"u\":0,\"v\":1,\"tau\":1,\"cost\":1,\"capacity\":[20,20,20]}],\n  \"commodities\":[\n    {\"id\":\"raw\",\"charges\":{\"mass\":1},\"inventory\":[{\"v\":0,\"t\":0,\"qty\":10}],\"procurement\":[],\"demands\":[],\"disposal\":[]},\n    {\"id\":\"part\",\"charges\":{\"mass\":1},\"inventory\":[],\"procurement\":[],\"demands\":[{\"v\":1,\"t\":2,\"qty\":10}],\"disposal\":[]}\n  ],\n  \"recipes\":[\n    {\"id\":\"make\",\"v\":0,\"t\":1,\"stoich\":{\"raw\":-1,\"part\":1},\"cap\":10,\"cost\":2,\"resources\":{\"labor\":1}}\n  ],\n  \"warehouses\":{}\n}\n", "samples/lot_demo.json": "{\n  \"schema\": \"flowlattice-lot-v1\",\n  \"graph\": {\n    \"F\": 3,\n    \"H\": 4,\n    \"hold_cost\": 1,\n    \"lanes\": [\n      {\"u\":0,\"v\":1,\"tau\":1,\"cost\":2},\n      {\"u\":1,\"v\":2,\"tau\":1,\"cost\":1},\n      {\"u\":0,\"v\":2,\"tau\":1,\"cost\":5}\n    ]\n  },\n  \"lots\": [\n    {\"id\":\"L001\",\"commodity\":\"part-A\",\"facility\":0,\"release_period\":0,\"expiry_period\":3,\"quality\":2,\"origin\":0,\"unit_qty\":1},\n    {\"id\":\"L002\",\"commodity\":\"part-A\",\"facility\":0,\"release_period\":0,\"expiry_period\":3,\"quality\":2,\"origin\":0,\"unit_qty\":1},\n    {\"id\":\"L003\",\"commodity\":\"part-A\",\"facility\":0,\"release_period\":0,\"expiry_period\":2,\"quality\":1,\"origin\":1,\"unit_qty\":1},\n    {\"id\":\"L004\",\"commodity\":\"part-A\",\"facility\":0,\"release_period\":0,\"expiry_period\":2,\"quality\":1,\"origin\":1,\"unit_qty\":1}\n  ],\n  \"demands\": [\n    {\"commodity\":\"part-A\",\"facility\":2,\"target_period\":3,\"min_quality\":2,\"allowed_origins\":\"1\",\"count\":2},\n    {\"commodity\":\"part-A\",\"facility\":1,\"target_period\":2,\"min_quality\":1,\"allowed_origins\":\"3\",\"count\":2}\n  ],\n  \"freshness_weight\": 1\n}\n", "samples/network.mps": "NAME          NETDEMO\nROWS\n N  COST\n E  N0\n E  N1\n E  N2\nCOLUMNS\n    X01       COST      2       N0       1\n    X01       N1       -1\n    X02       COST      5       N0       1\n    X02       N2       -1\n    X12       COST      1       N1       1\n    X12       N2       -1\nRHS\n    RHS1      N0        8       N1       0\n    RHS1      N2       -8\nBOUNDS\n UP BND1      X01       8\n UP BND1      X02       8\n UP BND1      X12       8\nENDATA\n", "samples/transport.lp": "Minimize\n obj: 2 x_A_C + 4 x_A_D + 3 x_B_C + 1 x_B_D\nSubject To\n supply_A: x_A_C + x_A_D <= 7\n supply_B: x_B_C + x_B_D <= 8\n demand_C: x_A_C + x_B_C >= 6\n demand_D: x_A_D + x_B_D >= 9\nBounds\n 0 <= x_A_C <= 7\n 0 <= x_A_D <= 7\n 0 <= x_B_C <= 8\n 0 <= x_B_D <= 8\nEnd\n"};
+
+</script>
+<script type="text/plain" id="fl-worker-body" data-filename="solver_worker.inline.js">
+'use strict';
+
+function serializeError(e) { return { message: e.message || String(e), stack: e.stack || '' }; }
+
+function analyze(model) {
+  if (model.schema === 'canonical-lp-v1') return FlowLatticeModelSolver.analyzeCanonical(model);
+  return FlowLatticeHybrid.analyzeFlowLattice(model);
+}
+
+function makeBenchmark(size = 'small') {
+  const scale = size === 'large' ? 20000 : size === 'medium' ? 5000 : 1000;
+  const F = 30, H = 10, lanes = [];
+  for (let v = 0; v < F; v++) { lanes.push({ u: v, v: (v + 1) % F, tau: 1, cost: 1 + (v % 4) }); lanes.push({ u: v, v: (v + 7) % F, tau: 1, cost: 2 + (v % 3) }); }
+  const commodities = [];
+  for (let i = 0; i < scale; i++) commodities.push({ id: 'sku' + i, inventory: [{ v: i % 5, t: 0, qty: 1 + (i % 7) }], procurement: [], demands: [{ v: 20 + (i % 10), t: H - 1, qty: 1 + (i % 7) }], disposal: [] });
+  const model = { schema: 'flowlattice-algebraic-v2', name: `browser-benchmark-${scale}`, F, H, default_hold_cost: 1, lanes, commodities, recipes: [], resources: {}, warehouses: {} };
+  const t0 = performance.now(), bit = FlowLatticeBitMatrix.solveBitMatrix(model, { materializeSparse: false }), t1 = performance.now();
+  const sample = { ...model, commodities: commodities.slice(0, Math.min(500, scale)) }, t2 = performance.now(), scalar = FlowLatticeHybrid.solveIndependentCommodityNetworks(sample), t3 = performance.now();
+  return {
+    size, commodities: scale, graphNodes: F * H,
+    packed: { seconds: (t1 - t0) / 1000, objective: bit.objective, packedBytes: bit.packedBytes, status: bit.status },
+    scalarSample: { commodities: sample.commodities.length, seconds: (t3 - t2) / 1000, objective: scalar.objective, status: scalar.status },
+    scalarProjectionSeconds: scalar.seconds * scale / sample.commodities.length,
+    speedupProjection: (scalar.seconds * scale / sample.commodities.length) / Math.max(1e-9, bit.seconds)
+  };
+}
+
+self.onmessage = function (ev) {
+  const { id, action, payload } = ev.data || {};
+  try {
+    if (action === 'parse') {
+      const model = FlowLatticeParsers.parseByExtension(payload.text, payload.filename || '');
+      self.postMessage({ id, ok: true, result: { model, analysis: analyze(model) } });
+    } else if (action === 'analyze') self.postMessage({ id, ok: true, result: analyze(payload.model) });
+    else if (action === 'solve') self.postMessage({ id, ok: true, result: FlowLatticeHybrid.solveAdaptive(payload.model, payload.options || {}) });
+    else if (action === 'compileLP') self.postMessage({ id, ok: true, result: FlowLatticeHybrid.compileFlowLatticeLP(payload.model) });
+    else if (action === 'toLP') self.postMessage({ id, ok: true, result: FlowLatticeParsers.toLP(payload.model) });
+    else if (action === 'liftLots') {
+      const lifted = FlowLatticeLot.liftSlices(payload.model, payload.plan); self.postMessage({ id, ok: true, result: { lifted, audit: FlowLatticeLot.auditLift(lifted) } });
+    } else if (action === 'benchmark') self.postMessage({ id, ok: true, result: makeBenchmark(payload.size || 'small') });
+    else throw new Error('unknown worker action: ' + action);
+  } catch (e) { self.postMessage({ id, ok: false, error: serializeError(e) }); }
+};
+
+</script>
+<script type="text/plain" id="fl-suite-body" data-filename="suite.inline.js">
+(() => {
+  'use strict';
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  let currentModel = null, currentAnalysis = null, currentResult = null, currentFilename = '', worker = null, seq = 1, pending = new Map();
+
+  function jsonStringify(x, space = 2) { return JSON.stringify(x, (_, v) => typeof v === 'bigint' ? v.toString() : v, space); }
+  function setBusy(on, text = 'Solving…') { $('#progress').classList.toggle('hidden', !on); $('#progress span').textContent = text; $('#solve-btn').disabled = on || !currentModel; $('#analyze-btn').disabled = on || !currentModel; $('#stop-btn').disabled = !on; }
+  function setRuntime(text) { $('#runtime-status').textContent = text; }
+
+  function createWorker() {
+    try {
+      if (!globalThis.FlowLatticeInlineWorkerURL) throw new Error('inline worker URL unavailable');
+      const w = new Worker(globalThis.FlowLatticeInlineWorkerURL, { name: 'flowlattice-inline-worker' });
+      w.onmessage = ev => { const p = pending.get(ev.data.id); if (!p) return; pending.delete(ev.data.id); ev.data.ok ? p.resolve(ev.data.result) : p.reject(Object.assign(new Error(ev.data.error.message), { stack: ev.data.error.stack })); };
+      w.onerror = (e) => { setRuntime('inline fallback · worker unavailable'); try { w.terminate(); } catch (_) {} worker = null; for (const [id,p] of pending) { pending.delete(id); p.reject(new Error('worker unavailable; retry the action')); } };
+      worker = w; setRuntime('inline worker · offline · no server');
+    } catch (_) { worker = null; setRuntime('inline main thread · offline'); }
+  }
+  createWorker();
+
+  function localCall(action, payload) {
+    if (action === 'parse') { const model = FlowLatticeParsers.parseByExtension(payload.text, payload.filename); return { model, analysis: analyzeLocal(model) }; }
+    if (action === 'analyze') return analyzeLocal(payload.model);
+    if (action === 'solve') return FlowLatticeHybrid.solveAdaptive(payload.model, payload.options || {});
+    if (action === 'compileLP') return FlowLatticeHybrid.compileFlowLatticeLP(payload.model);
+    if (action === 'toLP') return FlowLatticeParsers.toLP(payload.model);
+    if (action === 'liftLots') { const lifted = FlowLatticeLot.liftSlices(payload.model, payload.plan); return { lifted, audit: FlowLatticeLot.auditLift(lifted) }; }
+    if (action === 'benchmark') return runLocalBenchmark(payload.size);
+    throw new Error('unknown action');
+  }
+  function analyzeLocal(model) { return model.schema === 'canonical-lp-v1' ? FlowLatticeModelSolver.analyzeCanonical(model) : FlowLatticeHybrid.analyzeFlowLattice(model); }
+  function rpc(action, payload) {
+    if (!worker) return new Promise((resolve, reject) => setTimeout(() => { try { resolve(localCall(action, payload)); } catch (e) { reject(e); } }, 0));
+    return new Promise((resolve, reject) => { const id = seq++; pending.set(id, { resolve, reject }); worker.postMessage({ id, action, payload }); });
+  }
+
+  function metric(label, value) { return `<div class="metric"><span>${escapeHTML(label)}</span><b>${escapeHTML(String(value ?? '—'))}</b></div>`; }
+  function escapeHTML(s) { return String(s).replace(/[&<>'"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[c])); }
+  function fmt(n) { return typeof n === 'number' ? (Math.abs(n) >= 1000 ? n.toLocaleString(undefined,{maximumFractionDigits:3}) : +n.toFixed(6)) : n; }
+
+  function setModel(model, filename, analysis) {
+    currentModel = model; currentFilename = filename || model.name || 'model.json'; currentAnalysis = analysis || analyzeLocal(model); currentResult = null;
+    $('#model-editor').value = jsonStringify(model, 2);
+    $('#export-model').disabled = false; $('#export-result').disabled = true; $('#export-lp').disabled = false; $('#lift-lots').disabled = true; $('#solve-btn').disabled = false; $('#analyze-btn').disabled = false;
+    renderAnalysis(); clearSolution();
+  }
+
+  function renderAnalysis() {
+    const a = currentAnalysis || {}, canonical = currentModel?.schema === 'canonical-lp-v1';
+    $('#model-title').textContent = currentModel?.name || currentFilename || 'Imported model';
+    let subtitle = canonical ? `${currentModel.sourceFormat || 'canonical'} model normalized into sparse variables, bounds, objective, and rows.` : `${currentModel.schema || 'FlowLattice JSON'} analyzed for exact algebraic fast paths.`;
+    $('#model-subtitle').textContent = subtitle;
+    let sm = a.summary || a.compiledSummary || {};
+    if (!canonical && !sm.variables) {
+      sm = { variables: currentModel.commodities?.length || currentModel.lots?.length || currentModel.lot_classes?.length || 0, constraints: currentModel.recipes?.length || currentModel.demands?.length || 0, nonzeros: currentModel.lanes?.length || currentModel.graph?.lanes?.length || 0, integerVariables: currentModel.lots?.length || 0 };
+    }
+    $('#metrics').innerHTML = metric(canonical ? 'Variables' : 'Materials / lots', sm.variables) + metric(canonical ? 'Constraints' : 'Recipes / demands', sm.constraints) + metric(canonical ? 'Nonzeros' : 'Lanes', sm.nonzeros) + metric('Integer dimensions', sm.integerVariables || 0) + metric('Recommended', a.recommended || 'adaptive');
+    $('#recommendation').innerHTML = `<div class="route">${escapeHTML(a.recommended || 'adaptive')}</div>${badgesForAnalysis(a)}<p>${recommendationText(a.recommended)}</p>`;
+    const reasons = a.reasons || a.warnings || a.bitmatrix?.reasons || [];
+    $('#conditions').innerHTML = reasons.length ? `<ul class="conditions-list">${reasons.map(r => `<li>${escapeHTML(r)}</li>`).join('')}</ul>` : '<span class="badge ok">specialized exact path proven</span><p>No disqualifying coupled structure was found.</p>';
+    $('#diagnostics').textContent = jsonStringify(a, 2);
+  }
+
+  function badgesForAnalysis(a) {
+    const items = [];
+    if (a.bitmatrix?.ok) items.push('<span class="badge ok">bitmatrix eligible</span>');
+    if (a.incidence?.ok) items.push('<span class="badge ok">incidence matrix</span>');
+    if (a.transportation?.ok) items.push('<span class="badge ok">transportation matrix</span>');
+    if (a.lot) items.push('<span class="badge ok">lot quotient</span>');
+    if ((a.reasons || a.warnings || []).length) items.push('<span class="badge warn">fallback required</span>');
+    return items.join('');
+  }
+  function recommendationText(r) {
+    const map = {
+      'packed-bitmatrix':'Compile repeated time topology once and route packed material coordinates with bit-sliced quantities.',
+      'independent-commodity-mcf':'Solve distributed sources and material-specific costs as exact per-commodity residual networks.',
+      'lot-equivalence-quotient':'Optimize planning-equivalent lot classes with integer multiplicity, then restore exact physical identities.',
+      'coupled-lp':'Compile recipe transformations and shared capacities into a coupled continuous LP.',
+      'coupled-milp':'Isolate integer batches/setups in a reduced mixed-integer residual.',
+      'incidence-min-cost-flow':'The imported matrix is a node-arc incidence system and can be solved directly as min-cost flow.',
+      'transportation-min-cost-flow':'The imported LP is a transportation network with integral extreme points.',
+      'dense-simplex':'No supported network structure was proven; use the browser dense LP fallback for moderate models.',
+      'dense-branch-and-bound':'Integer variables require the bounded browser branch-and-bound fallback.'
+    }; return map[r] || 'The adaptive dispatcher selects the cheapest exact representation that matches the model.';
+  }
+
+  function clearSolution() {
+    $('#solution-metrics').innerHTML = ''; $('#solution-summary').className = 'empty'; $('#solution-summary').textContent = 'Solve a model to see the plan.';
+    $('#solution-table thead').innerHTML = ''; $('#solution-table tbody').innerHTML = ''; $('#raw-result').textContent = 'No result.'; $('#certificate').textContent = 'No certificate.'; $('#lifted-result').textContent = 'No lifted allocation.';
+  }
+
+  function renderResult(r) {
+    currentResult = r; $('#export-result').disabled = false; $('#lift-lots').disabled = !(r.slices && (currentModel.lots || currentModel.basis));
+    $('#solution-metrics').innerHTML = metric('Status', r.status) + metric('Objective', fmt(r.objective)) + metric('Engine', r.method) + metric('Seconds', fmt(r.seconds)) + metric('Scale', resultScale(r));
+    $('#solution-summary').className = '';
+    $('#solution-summary').innerHTML = `<span class="badge ${r.status === 'optimal' ? 'ok' : 'warn'}">${escapeHTML(r.status)}</span><p>${escapeHTML(resultDescription(r))}</p>`;
+    renderResultTable(r); $('#raw-result').textContent = jsonStringify(r, 2);
+    $('#certificate').innerHTML = r.certificate ? `<pre>${escapeHTML(jsonStringify(r.certificate,2))}</pre>` : r.status === 'optimal' ? '<span class="badge ok">feasible optimum</span><p>No infeasibility cut was required.</p>' : '<span class="badge warn">no certificate available</span>';
+    switchTab('plan');
+  }
+  function resultScale(r) { return r.lotCount || r.graph?.nodes || r.rows || r.analysis?.summary?.variables || '—'; }
+  function resultDescription(r) {
+    if (r.method === 'packed-bitmatrix') return `${r.routedQuantity} units routed in ${r.graph.treeCount} compiled source trees; packed payload ${r.packedBytes} bytes.`;
+    if (r.method === 'lot-equivalence-quotient') return `${r.lotCount} physical lots reduced to ${r.lotClasses} planning classes and ${r.compressedSlices} exact identity slices.`;
+    if (r.method === 'independent-commodity-mcf') return `${r.commodityPlans.length} commodity residual networks solved over one shared time-expanded topology.`;
+    if (r.values) return `${Object.keys(r.values).length} variable values returned from ${r.rows || '?'} rows and ${r.columns || '?'} standardized columns.`;
+    return 'Plan completed.';
+  }
+
+  function renderResultTable(r) {
+    const head = $('#solution-table thead'), body = $('#solution-table tbody'); head.innerHTML = ''; body.innerHTML = '';
+    let headers = [], rows = [];
+    if (r.values) { headers = ['Variable','Value']; rows = Object.entries(r.values).filter(([,v]) => Math.abs(v) > 1e-9).slice(0,1000); }
+    else if (r.edgeFlows) { headers = ['Edge','Flow vector']; rows = r.edgeFlows.slice(0,1000).map(e => [e.eid, jsonStringify(e.vector || e.sparse || e.blocks,0)]); }
+    else if (r.slices) { headers = ['Class','Demand','Offset','Count']; rows = r.slices.slice(0,1000).map(s => [s.class_id,s.demand_id,s.offset,s.count]); }
+    else if (r.routes) { headers = ['Commodity','Quantity','Cost','Edges']; rows = r.routes.slice(0,1000).map(x => [x.commodity,x.qty,x.cost,x.edgeIds.join(',')]); }
+    if (!headers.length) return;
+    head.innerHTML = `<tr>${headers.map(h=>`<th>${escapeHTML(h)}</th>`).join('')}</tr>`;
+    body.innerHTML = rows.map(row => `<tr>${row.map(v=>`<td>${escapeHTML(fmt(v))}</td>`).join('')}</tr>`).join('');
+  }
+
+  async function parseText(text, filename) {
+    setBusy(true, 'Parsing and classifying…');
+    try { const out = await rpc('parse', { text, filename }); setModel(out.model, filename, out.analysis); }
+    catch (e) { alert('Import failed: ' + e.message); }
+    finally { setBusy(false); }
+  }
+
+  async function analyzeCurrent() {
+    if (!currentModel) return; setBusy(true, 'Analyzing representation…');
+    try { currentAnalysis = await rpc('analyze', { model: currentModel }); renderAnalysis(); }
+    catch (e) { alert('Analysis failed: ' + e.message); }
+    finally { setBusy(false); }
+  }
+
+  async function solveCurrent() {
+    if (!currentModel) return; setBusy(true, 'Solving exact model…');
+    try {
+      const options = { method: $('#engine-select').value, maxDenseCells: +$('#dense-limit').value, timeLimitSeconds: +$('#time-limit').value, materializeSparse: true };
+      const r = await rpc('solve', { model: currentModel, options }); renderResult(r);
+    } catch (e) { alert('Solve failed: ' + e.message); }
+    finally { setBusy(false); }
+  }
+
+  function download(name, content, type = 'application/json') {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([content], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  async function exportLP() {
+    if (!currentModel) return;
+    try {
+      let canonical = currentModel;
+      if (canonical.schema !== 'canonical-lp-v1') canonical = await rpc('compileLP', { model: currentModel });
+      const text = await rpc('toLP', { model: canonical }); download((currentModel.name || 'flowlattice') + '.lp', text, 'text/plain');
+    } catch (e) { alert('LP export is only available for algebraic/canonical models: ' + e.message); }
+  }
+
+  async function liftLots() {
+    if (!currentModel || !currentResult) return;
+    try { const r = await rpc('liftLots', { model: currentModel, plan: currentResult }); $('#lot-audit').innerHTML = r.audit.ok ? `<span class="badge ok">${r.audit.assigned} exact lots assigned</span>` : `<span class="badge warn">${escapeHTML(r.audit.error)}</span>`; $('#lifted-result').textContent = jsonStringify(r.lifted,2); switchTab('audit'); }
+    catch (e) { alert('Lot lift failed: ' + e.message); }
+  }
+
+  async function runBenchmark() {
+    setBusy(true, 'Running browser benchmark…'); switchTab('benchmark');
+    try { const r = await rpc('benchmark', { size: $('#bench-size').value }); $('#benchmark-output').textContent = jsonStringify(r,2); }
+    catch (e) { $('#benchmark-output').textContent = 'Benchmark failed: ' + e.message; }
+    finally { setBusy(false); }
+  }
+  function runLocalBenchmark(size) {
+    const scale = size === 'large' ? 20000 : size === 'medium' ? 5000 : 1000, F=30,H=10,lanes=[];
+    for(let v=0;v<F;v++){lanes.push({u:v,v:(v+1)%F,tau:1,cost:1+(v%4)});lanes.push({u:v,v:(v+7)%F,tau:1,cost:2+(v%3)});} const commodities=[];
+    for(let i=0;i<scale;i++)commodities.push({id:'sku'+i,inventory:[{v:i%5,t:0,qty:1+(i%7)}],procurement:[],demands:[{v:20+(i%10),t:H-1,qty:1+(i%7)}],disposal:[]});
+    const model={schema:'flowlattice-algebraic-v2',F,H,default_hold_cost:1,lanes,commodities,recipes:[],resources:{},warehouses:{}}; const t0=performance.now(),packed=FlowLatticeBitMatrix.solveBitMatrix(model,{materializeSparse:false}),sample={...model,commodities:commodities.slice(0,Math.min(500,scale))},t1=performance.now(),scalar=FlowLatticeHybrid.solveIndependentCommodityNetworks(sample),t2=performance.now();
+    return {size,commodities:scale,packed:{seconds:(t1-t0)/1000,objective:packed.objective,packedBytes:packed.packedBytes},scalarSample:{commodities:sample.commodities.length,seconds:(t2-t1)/1000,objective:scalar.objective},scalarProjectionSeconds:scalar.seconds*scale/sample.commodities.length,speedupProjection:(scalar.seconds*scale/sample.commodities.length)/packed.seconds};
+  }
+
+  function switchTab(name) { $$('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name)); $$('.tabpage').forEach(p=>p.classList.toggle('active',p.id===`tab-${name}`)); }
+  $$('.tab').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+
+  $('#file-input').addEventListener('change', e => { const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>parseText(r.result,f.name); r.readAsText(f); });
+  const dz=$('#drop-zone'); ['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')})); ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')})); dz.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(!f)return;const r=new FileReader();r.onload=()=>parseText(r.result,f.name);r.readAsText(f)});
+  $('#load-sample').addEventListener('click', async()=>{const u=$('#sample-select').value;if(!u)return;try{const text=globalThis.FlowLatticeSamples&&globalThis.FlowLatticeSamples[u];if(text==null)throw new Error('embedded sample not found');parseText(text,u.split('/').pop())}catch(e){alert('Sample load failed: '+e.message)}});
+  $('#apply-editor').addEventListener('click',()=>{try{const m=JSON.parse($('#model-editor').value);setModel(m,currentFilename,analyzeLocal(m))}catch(e){alert('Invalid JSON: '+e.message)}});
+  $('#analyze-btn').addEventListener('click',analyzeCurrent); $('#solve-btn').addEventListener('click',solveCurrent); $('#bench-btn').addEventListener('click',runBenchmark);
+  $('#stop-btn').addEventListener('click',()=>{if(worker){worker.terminate();pending.forEach(p=>p.reject(new Error('stopped')));pending.clear();createWorker()}setBusy(false)});
+  $('#export-model').addEventListener('click',()=>download((currentModel.name||'model')+'.json',jsonStringify(currentModel,2)));
+  $('#export-result').addEventListener('click',()=>download((currentModel.name||'plan')+'-solution.json',jsonStringify(currentResult,2)));
+  $('#export-lp').addEventListener('click',exportLP); $('#lift-lots').addEventListener('click',liftLots);
+  $$('[data-benchmark-download]').forEach(button => button.addEventListener('click', () => {
+    const name = button.dataset.benchmarkDownload, content = globalThis.FlowLatticeBenchmarkArtifacts?.[name];
+    if (content == null) return alert('Embedded benchmark artifact is unavailable.');
+    download(name, content, 'text/csv');
+  }));
+})();
+
+</script>
+<script>
+(() => {
+  'use strict';
+  const ids = ["fl-src-0", "fl-src-1", "fl-src-2", "fl-src-3", "fl-src-4", "fl-src-5", "fl-src-6"];
+  const sources = ids.map(id => {
+    const el = document.getElementById(id);
+    return { filename: el.dataset.filename, source: el.textContent };
+  });
+  globalThis.FlowLatticeBenchmarkArtifacts = {"bitmatrix_benchmark_all.csv": "name,F,H,lane_count,K,producers,demand_min,demand_max,seed,structured,clustered_demands,target_facilities,target_periods,cluster_material_basis,ortools_limit,nodes,arcs,shift_groups,demand_groups,objective,bitmatrix_seconds_median,bitmatrix_wavefront_seconds,bitmatrix_materialize_seconds,bitmatrix_compact_bytes,bitmatrix_flow_plane_count,scalar_algebraic_seconds_median,scalar_sparse_payload_bytes_est,scalar_flow_nnz,ortools_reuse_count,ortools_reuse_seconds,ortools_reuse_projected_full_seconds,ortools_rebuild_count,ortools_rebuild_seconds,speedup_vs_ortools_reuse_projected,speedup_vs_scalar_algebraic,compact_vs_scalar_payload,validation\nsmall,48,12,240,1000,12,1,3,11,True,True,12,6,True,,576,3168,16,412,2774996,0.014096465000079661,0.0005699490000097285,0.013019917999940844,535296,2091,0.006251470999927733,164592,10287,1000,0.4923556840000174,0.4923556840000174,1000,0.5166674929999999,34.92759950790748,0.44347792158476645,0.3074784791965567,PASS\nmedium,120,18,720,10000,30,1,4,17,True,True,12,6,True,2000,2160,14280,19,1302,50020166,0.1216130919999614,0.005898327000068093,0.10632119399997464,2776320,10845,0.08532981700000164,2567488,160468,2000,15.149706147000074,75.74853073500037,20,0.1315017300000818,622.8649357507037,0.701649925980245,0.9247810050714615,PASS\nautomotive,300,26,1800,50000,60,1,4,23,True,True,12,6,True,200,7800,52500,19,2256,376035491,0.7801724629999853,0.05969260199992732,0.6362510569999813,11351552,44342,0.7000428560000955,19070080,1191880,200,7.752248916999974,1938.0622292499938,5,0.23562164600002689,2484.1459051215325,0.8972924439145562,1.6799535429164223,PASS\nmaterial_dense_200k,300,26,1800,200000,60,1,4,29,True,True,12,6,True,100,7800,52500,19,2256,1518083844,1.453112105999935,0.06145349600001282,1.2882263169999533,32677632,127647,2.2578475805000267,76474656,4779666,100,3.945843079000042,7891.686158000084,5,0.1874042140000256,5430.885975978812,1.553801369610314,2.3402753296199674,PASS\nsparse_event_control,120,18,720,10000,30,1,4,31,True,False,12,6,True,500,2160,14280,19,10359,41125557,0.6707199529998888,0.041129365999950096,0.6391293379999752,14977024,58504,0.11347766499994805,2282512,142657,500,2.6646168690000422,53.292337380000845,20,0.14623268900004405,79.4554227015961,0.16918784731601216,0.15240090421167785,PASS\n", "lot_level_benchmark.csv": "actual_demand,actual_lots,classes_per_commodity,commodities,compressed_slices,cpsat_best_bound,cpsat_build_seconds,cpsat_demands,cpsat_limit,cpsat_lots,cpsat_method,cpsat_objective,cpsat_seconds,cpsat_solve_seconds,cpsat_status,cpsat_variables,demand_classes,demands_per_commodity,eligible_class_arcs,facilities,hubs,lot_classes,lots,name,objective_match_cpsat,objective_match_mcf,per_lot_mcf_build_seconds,per_lot_mcf_demands,per_lot_mcf_eligible_lot_arcs,per_lot_mcf_lots,per_lot_mcf_method,per_lot_mcf_objective,per_lot_mcf_peak_rss_kb_whole_process,per_lot_mcf_seconds,per_lot_mcf_solve_seconds,per_lot_mcf_status,periods,quotient_compile_seconds,quotient_lift_seconds,quotient_objective,quotient_peak_rss_kb_whole_process,quotient_seconds_median,quotient_seconds_min,quotient_solve_seconds,run_cpsat,run_mcf,seed,speedup_vs_cpsat,speedup_vs_per_lot_mcf,utilization\n3800,5000,6,100,761,44540,0.13140870600000198,3800,20,5000,ortools_cpsat_per_lot,45214,20.148315023000123,20.01642830700007,feasible,12502,400,4,1500,36,8,600,5000,small,False,True,0.006027760999813836,3800,12502,5000,ortools_per_lot_mcf,45139,,0.023554603999855317,0.017513513000039893,optimal,10,0.0031714780000129394,0.00027320100002725667,45139,,0.007963005999954476,0.0075630839999121235,0.0030844469999919966,True,True,11,2530.2398394670695,2.958004050228014,0.78\n38000,50000,6,500,4075,,,,20.0,,,,,,,,2000,4,7500,60,12,3000,50000,medium,,True,0.05009611500008759,38000,125002,50000,ortools_per_lot_mcf,533643,,0.24826575099996262,0.1981419730000198,optimal,12,0.02457456899992394,0.0015934900000047492,533643,,0.05709890100001758,0.055896313000175724,0.023815375999902244,False,True,17,,4.347995261763202,0.78\n190000,250000,6,2000,15811,,,,20.0,,,,,,,,8000,4,30000,120,20,12000,250000,automotive,,True,0.2519453180000255,190000,625002,250000,ortools_per_lot_mcf,3751852,,1.8974041520000355,1.6454315729999962,optimal,18,0.18212303300015265,0.008286202000135745,3751852,,0.330989493000061,0.3192207279998911,0.1029242559998238,False,True,23,,5.732520796361611,0.78\n760000,1000000,6,5000,37781,,,,20.0,,,,,,,,20000,4,75000,180,30,30000,1000000,million_direct,,True,1.0518497029997889,760000,2500002,1000000,ortools_per_lot_mcf,20971151,725312,10.134128644000157,9.082247883000036,optimal,26,0.8069288729998334,0.02233888399996431,20971151,383900,1.2529165324999667,1.159930501999952,0.26259585299976607,False,True,31,,8.088430778209423,0.78\n1550000,2000000,6,5000,38596,,,,20.0,,,,,,,,20000,4,75000,180,30,30000,2000000,mega_lot,,,,,,,,,,,,,26,0.7551075530000162,0.02215598099996896,42802800,,1.161468813999818,1.1046340620000592,0.2632155539999985,False,False,29,,,0.78\n", "hybrid_benchmark.csv": "F,H,commodities,fast_balance_rows,fast_iterations,fast_method,fast_objective,fast_path_columns,fast_resource_rows,fast_seconds,full_balance_rows,full_method,full_objective,full_seconds,full_variables,integer_variables,integrality_gap,max_balance_residual,min_resource_slack,mode,objective_gap,recipes,scenario,speedup,variable_reduction\n20,6,120,600,1,event_path_column_generation,38747.045000000035,720,0,0.11141578100000515,14400,sparse_tensor_lp,38747.04499999997,0.6961506040000813,73560,,,1.7763568394002505e-15,,continuous,6.548361852765083e-11,0,distributed_sources,6.248222628355037,32.26315789473684\n14,7,32,78,1,event_path_column_generation,9922.07,46,10,0.018280325999967317,3136,sparse_tensor_lp,9922.070000000002,0.11701844499998515,16852,,,0.0,0.0,continuous,1.8189894035458565e-12,30,alternative_recipes,6.4013325035994635,66.34645669291339\n8,5,60,120,7,event_path_column_generation,855.2699999999999,400,18,0.10814642100001493,2400,sparse_tensor_lp,855.27,0.05272946200000206,5580,,,1.7763568394002505e-15,-2.842170943040401e-14,continuous,1.1368683772161603e-13,0,shared_capacities,0.4875747298192585,7.9714285714285715\n20,6,120,240,1,event_path_column_generation,15823.370000000003,120,0,0.12181081500000346,14400,sparse_tensor_lp,15823.370000000017,0.49256114100001014,76920,,,0.0,,continuous,1.4551915228366852e-11,0,material_costs,4.043656887116272,106.83333333333333\n24,8,97,289,6,event_path_column_generation,7932.564,216,90,0.9193449269999974,18624,sparse_tensor_lp,7932.563999999983,1.0988052100000232,108049,,,3.552713678800501e-15,16.120000000000005,continuous,1.7280399333685637e-11,24,combined_continuous,1.1952045176184742,110.36670071501533\n8,5,12,,,sparse_tensor_milp,1333.3,,,0.30055421100007607,,sparse_tensor_lp_relaxation,1318.5,0.013083791999974892,2082,2082,14.799999999999955,,,integer,,6,integer_lots_setups,,\n"};
+
+  // Evaluate the same inline modules in the window and in a Blob-backed worker.
+  for (const part of sources) (0, eval)(part.source + '\n//# sourceURL=' + part.filename);
+  const workerBody = document.getElementById('fl-worker-body').textContent;
+  const workerSource = sources.filter(x => x.filename !== 'embedded_samples.js').map(x => x.source + '\n//# sourceURL=' + x.filename).join('\n') + '\n' + workerBody;
+  globalThis.FlowLatticeInlineWorkerURL = URL.createObjectURL(new Blob([workerSource], { type: 'text/javascript' }));
+
+  const suite = document.getElementById('fl-suite-body');
+  (0, eval)(suite.textContent + '\n//# sourceURL=' + suite.dataset.filename);
+
+  addEventListener('beforeunload', () => {
+    if (globalThis.FlowLatticeInlineWorkerURL) URL.revokeObjectURL(globalThis.FlowLatticeInlineWorkerURL);
+  });
+})();
+</script>
+
+</body>
+</html>
