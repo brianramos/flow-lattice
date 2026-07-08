@@ -14,11 +14,7 @@ Open it directly in a modern browser. No installation, package manager, server, 
 
 ## Why FlowLattice
 
-Conventional planning systems often expand every material, time period, facility, and physical lot into separate scalar variables. FlowLattice keeps the problem’s algebraic composition visible:
-
-\[
-(\partial \otimes I_M)f + Sx = d
-\]
+Conventional planning systems often expand every material, time period, facility, and physical lot into separate scalar variables. FlowLattice keeps the problem’s algebraic composition visible.
 
 This allows the suite to select a solver from the model’s structure rather than sending every instance through one generic optimizer.
 
