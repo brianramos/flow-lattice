@@ -1,0 +1,5003 @@
+{
+ "schema": "flowlattice-algebraic-v2",
+ "name": "feas_100",
+ "description": "Coupled regression fixture: 30 facilities, 12 periods, 100 SKUs (1/3 two-level BOM with 3 recipe events each), binding shared lane capacities (13/lane/period) and shared labor (40/period). Reference: native HiGHS solves the flat twin (feas_100.mps) OPTIMAL, objective 4290, in 3.84 s. Pass bar: coupled engine returns optimal 4290 competitively.",
+ "F": 30,
+ "H": 12,
+ "default_hold_cost": 1,
+ "lanes": [
+  {
+   "u": 0,
+   "v": 1,
+   "tau": 1,
+   "cost": 1,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 0,
+   "v": 7,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 1,
+   "v": 2,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 1,
+   "v": 8,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 2,
+   "v": 3,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 2,
+   "v": 9,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 3,
+   "v": 4,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 3,
+   "v": 10,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 4,
+   "v": 5,
+   "tau": 1,
+   "cost": 1,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 4,
+   "v": 11,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 5,
+   "v": 6,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 5,
+   "v": 12,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 6,
+   "v": 7,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 6,
+   "v": 13,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 7,
+   "v": 8,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 7,
+   "v": 14,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 8,
+   "v": 9,
+   "tau": 1,
+   "cost": 1,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 8,
+   "v": 15,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 9,
+   "v": 10,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 9,
+   "v": 16,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 10,
+   "v": 11,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 10,
+   "v": 17,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 11,
+   "v": 12,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 11,
+   "v": 18,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 12,
+   "v": 13,
+   "tau": 1,
+   "cost": 1,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 12,
+   "v": 19,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 13,
+   "v": 14,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 13,
+   "v": 20,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 14,
+   "v": 15,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 14,
+   "v": 21,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 15,
+   "v": 16,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 15,
+   "v": 22,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 16,
+   "v": 17,
+   "tau": 1,
+   "cost": 1,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 16,
+   "v": 23,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 17,
+   "v": 18,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 17,
+   "v": 24,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 18,
+   "v": 19,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 18,
+   "v": 25,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 19,
+   "v": 20,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 19,
+   "v": 26,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 20,
+   "v": 21,
+   "tau": 1,
+   "cost": 1,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 20,
+   "v": 27,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 21,
+   "v": 22,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 21,
+   "v": 28,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 22,
+   "v": 23,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 22,
+   "v": 29,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 23,
+   "v": 24,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 23,
+   "v": 0,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 24,
+   "v": 25,
+   "tau": 1,
+   "cost": 1,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 24,
+   "v": 1,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 25,
+   "v": 26,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 25,
+   "v": 2,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 26,
+   "v": 27,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 26,
+   "v": 3,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 27,
+   "v": 28,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 27,
+   "v": 4,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 28,
+   "v": 29,
+   "tau": 1,
+   "cost": 1,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 28,
+   "v": 5,
+   "tau": 1,
+   "cost": 3,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 29,
+   "v": 0,
+   "tau": 1,
+   "cost": 2,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  },
+  {
+   "u": 29,
+   "v": 6,
+   "tau": 1,
+   "cost": 4,
+   "capacity": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ]
+  }
+ ],
+ "commodities": [
+  {
+   "id": "raw0",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 10,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin0",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 20,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku1",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 21,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku2",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 22,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw3",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 13,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin3",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 23,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku4",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 24,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku5",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 25,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw6",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 11,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin6",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 26,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku7",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 27,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku8",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 28,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw9",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 14,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin9",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 29,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku10",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 20,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku11",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 21,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw12",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 12,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin12",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 22,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku13",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 23,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku14",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 24,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw15",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 10,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin15",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 25,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku16",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 26,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku17",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 27,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw18",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 13,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin18",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 28,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku19",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 29,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku20",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 20,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw21",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 11,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin21",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 21,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku22",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 22,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku23",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 23,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw24",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 14,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin24",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 24,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku25",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 25,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku26",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 26,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw27",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 12,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin27",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 27,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku28",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 28,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku29",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 29,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw30",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 10,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin30",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 20,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku31",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 21,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku32",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 22,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw33",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 13,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin33",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 23,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku34",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 24,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku35",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 25,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw36",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 11,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin36",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 26,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku37",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 27,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku38",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 28,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw39",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 14,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin39",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 29,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku40",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 20,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku41",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 21,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw42",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 12,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin42",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 22,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku43",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 23,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku44",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 24,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw45",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 10,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin45",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 25,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku46",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 26,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku47",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 27,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw48",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 13,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin48",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 28,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku49",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 29,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku50",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 20,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw51",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 11,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin51",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 21,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku52",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 22,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku53",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 23,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw54",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 14,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin54",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 24,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku55",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 25,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku56",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 26,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw57",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 12,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin57",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 27,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku58",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 28,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku59",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 29,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw60",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 10,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin60",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 20,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku61",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 21,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku62",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 22,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw63",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 13,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin63",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 23,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku64",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 24,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku65",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 25,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw66",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 11,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin66",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 26,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku67",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 27,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku68",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 28,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw69",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 14,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin69",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 29,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku70",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 20,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku71",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 21,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw72",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 12,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin72",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 22,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku73",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 23,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku74",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 24,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw75",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 10,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin75",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 25,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku76",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 26,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku77",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 27,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw78",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 13,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin78",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 28,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku79",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 29,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku80",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 20,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw81",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 11,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin81",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 21,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku82",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 22,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku83",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 23,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw84",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 14,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin84",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 24,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku85",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 25,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku86",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 26,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw87",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 12,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin87",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 27,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku88",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 28,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku89",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 29,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw90",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 10,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin90",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 20,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku91",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 21,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku92",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 22,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw93",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 13,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin93",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 23,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku94",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 24,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku95",
+   "inventory": [
+    {
+     "v": 0,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 25,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw96",
+   "inventory": [
+    {
+     "v": 1,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 11,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin96",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 26,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku97",
+   "inventory": [
+    {
+     "v": 2,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 27,
+     "t": 11,
+     "qty": 2
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "sku98",
+   "inventory": [
+    {
+     "v": 3,
+     "t": 0,
+     "qty": 3
+    }
+   ],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 28,
+     "t": 11,
+     "qty": 3
+    }
+   ],
+   "disposal": []
+  },
+  {
+   "id": "raw99",
+   "inventory": [
+    {
+     "v": 4,
+     "t": 0,
+     "qty": 2
+    }
+   ],
+   "procurement": [],
+   "demands": [],
+   "disposal": [
+    {
+     "v": 14,
+     "t": 11,
+     "cap": 1000
+    }
+   ]
+  },
+  {
+   "id": "fin99",
+   "inventory": [],
+   "procurement": [],
+   "demands": [
+    {
+     "v": 29,
+     "t": 11,
+     "qty": 1
+    }
+   ],
+   "disposal": []
+  }
+ ],
+ "recipes": [
+  {
+   "id": "mk0_3",
+   "v": 10,
+   "t": 3,
+   "stoich": {
+    "raw0": -2,
+    "fin0": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk0_4",
+   "v": 10,
+   "t": 4,
+   "stoich": {
+    "raw0": -2,
+    "fin0": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk0_5",
+   "v": 10,
+   "t": 5,
+   "stoich": {
+    "raw0": -2,
+    "fin0": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk3_3",
+   "v": 13,
+   "t": 3,
+   "stoich": {
+    "raw3": -2,
+    "fin3": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk3_4",
+   "v": 13,
+   "t": 4,
+   "stoich": {
+    "raw3": -2,
+    "fin3": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk3_5",
+   "v": 13,
+   "t": 5,
+   "stoich": {
+    "raw3": -2,
+    "fin3": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk6_3",
+   "v": 11,
+   "t": 3,
+   "stoich": {
+    "raw6": -2,
+    "fin6": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk6_4",
+   "v": 11,
+   "t": 4,
+   "stoich": {
+    "raw6": -2,
+    "fin6": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk6_5",
+   "v": 11,
+   "t": 5,
+   "stoich": {
+    "raw6": -2,
+    "fin6": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk9_3",
+   "v": 14,
+   "t": 3,
+   "stoich": {
+    "raw9": -2,
+    "fin9": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk9_4",
+   "v": 14,
+   "t": 4,
+   "stoich": {
+    "raw9": -2,
+    "fin9": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk9_5",
+   "v": 14,
+   "t": 5,
+   "stoich": {
+    "raw9": -2,
+    "fin9": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk12_3",
+   "v": 12,
+   "t": 3,
+   "stoich": {
+    "raw12": -2,
+    "fin12": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk12_4",
+   "v": 12,
+   "t": 4,
+   "stoich": {
+    "raw12": -2,
+    "fin12": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk12_5",
+   "v": 12,
+   "t": 5,
+   "stoich": {
+    "raw12": -2,
+    "fin12": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk15_3",
+   "v": 10,
+   "t": 3,
+   "stoich": {
+    "raw15": -2,
+    "fin15": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk15_4",
+   "v": 10,
+   "t": 4,
+   "stoich": {
+    "raw15": -2,
+    "fin15": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk15_5",
+   "v": 10,
+   "t": 5,
+   "stoich": {
+    "raw15": -2,
+    "fin15": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk18_3",
+   "v": 13,
+   "t": 3,
+   "stoich": {
+    "raw18": -2,
+    "fin18": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk18_4",
+   "v": 13,
+   "t": 4,
+   "stoich": {
+    "raw18": -2,
+    "fin18": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk18_5",
+   "v": 13,
+   "t": 5,
+   "stoich": {
+    "raw18": -2,
+    "fin18": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk21_3",
+   "v": 11,
+   "t": 3,
+   "stoich": {
+    "raw21": -2,
+    "fin21": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk21_4",
+   "v": 11,
+   "t": 4,
+   "stoich": {
+    "raw21": -2,
+    "fin21": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk21_5",
+   "v": 11,
+   "t": 5,
+   "stoich": {
+    "raw21": -2,
+    "fin21": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk24_3",
+   "v": 14,
+   "t": 3,
+   "stoich": {
+    "raw24": -2,
+    "fin24": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk24_4",
+   "v": 14,
+   "t": 4,
+   "stoich": {
+    "raw24": -2,
+    "fin24": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk24_5",
+   "v": 14,
+   "t": 5,
+   "stoich": {
+    "raw24": -2,
+    "fin24": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk27_3",
+   "v": 12,
+   "t": 3,
+   "stoich": {
+    "raw27": -2,
+    "fin27": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk27_4",
+   "v": 12,
+   "t": 4,
+   "stoich": {
+    "raw27": -2,
+    "fin27": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk27_5",
+   "v": 12,
+   "t": 5,
+   "stoich": {
+    "raw27": -2,
+    "fin27": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk30_3",
+   "v": 10,
+   "t": 3,
+   "stoich": {
+    "raw30": -2,
+    "fin30": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk30_4",
+   "v": 10,
+   "t": 4,
+   "stoich": {
+    "raw30": -2,
+    "fin30": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk30_5",
+   "v": 10,
+   "t": 5,
+   "stoich": {
+    "raw30": -2,
+    "fin30": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk33_3",
+   "v": 13,
+   "t": 3,
+   "stoich": {
+    "raw33": -2,
+    "fin33": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk33_4",
+   "v": 13,
+   "t": 4,
+   "stoich": {
+    "raw33": -2,
+    "fin33": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk33_5",
+   "v": 13,
+   "t": 5,
+   "stoich": {
+    "raw33": -2,
+    "fin33": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk36_3",
+   "v": 11,
+   "t": 3,
+   "stoich": {
+    "raw36": -2,
+    "fin36": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk36_4",
+   "v": 11,
+   "t": 4,
+   "stoich": {
+    "raw36": -2,
+    "fin36": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk36_5",
+   "v": 11,
+   "t": 5,
+   "stoich": {
+    "raw36": -2,
+    "fin36": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk39_3",
+   "v": 14,
+   "t": 3,
+   "stoich": {
+    "raw39": -2,
+    "fin39": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk39_4",
+   "v": 14,
+   "t": 4,
+   "stoich": {
+    "raw39": -2,
+    "fin39": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk39_5",
+   "v": 14,
+   "t": 5,
+   "stoich": {
+    "raw39": -2,
+    "fin39": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk42_3",
+   "v": 12,
+   "t": 3,
+   "stoich": {
+    "raw42": -2,
+    "fin42": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk42_4",
+   "v": 12,
+   "t": 4,
+   "stoich": {
+    "raw42": -2,
+    "fin42": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk42_5",
+   "v": 12,
+   "t": 5,
+   "stoich": {
+    "raw42": -2,
+    "fin42": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk45_3",
+   "v": 10,
+   "t": 3,
+   "stoich": {
+    "raw45": -2,
+    "fin45": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk45_4",
+   "v": 10,
+   "t": 4,
+   "stoich": {
+    "raw45": -2,
+    "fin45": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk45_5",
+   "v": 10,
+   "t": 5,
+   "stoich": {
+    "raw45": -2,
+    "fin45": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk48_3",
+   "v": 13,
+   "t": 3,
+   "stoich": {
+    "raw48": -2,
+    "fin48": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk48_4",
+   "v": 13,
+   "t": 4,
+   "stoich": {
+    "raw48": -2,
+    "fin48": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk48_5",
+   "v": 13,
+   "t": 5,
+   "stoich": {
+    "raw48": -2,
+    "fin48": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk51_3",
+   "v": 11,
+   "t": 3,
+   "stoich": {
+    "raw51": -2,
+    "fin51": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk51_4",
+   "v": 11,
+   "t": 4,
+   "stoich": {
+    "raw51": -2,
+    "fin51": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk51_5",
+   "v": 11,
+   "t": 5,
+   "stoich": {
+    "raw51": -2,
+    "fin51": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk54_3",
+   "v": 14,
+   "t": 3,
+   "stoich": {
+    "raw54": -2,
+    "fin54": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk54_4",
+   "v": 14,
+   "t": 4,
+   "stoich": {
+    "raw54": -2,
+    "fin54": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk54_5",
+   "v": 14,
+   "t": 5,
+   "stoich": {
+    "raw54": -2,
+    "fin54": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk57_3",
+   "v": 12,
+   "t": 3,
+   "stoich": {
+    "raw57": -2,
+    "fin57": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk57_4",
+   "v": 12,
+   "t": 4,
+   "stoich": {
+    "raw57": -2,
+    "fin57": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk57_5",
+   "v": 12,
+   "t": 5,
+   "stoich": {
+    "raw57": -2,
+    "fin57": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk60_3",
+   "v": 10,
+   "t": 3,
+   "stoich": {
+    "raw60": -2,
+    "fin60": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk60_4",
+   "v": 10,
+   "t": 4,
+   "stoich": {
+    "raw60": -2,
+    "fin60": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk60_5",
+   "v": 10,
+   "t": 5,
+   "stoich": {
+    "raw60": -2,
+    "fin60": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk63_3",
+   "v": 13,
+   "t": 3,
+   "stoich": {
+    "raw63": -2,
+    "fin63": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk63_4",
+   "v": 13,
+   "t": 4,
+   "stoich": {
+    "raw63": -2,
+    "fin63": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk63_5",
+   "v": 13,
+   "t": 5,
+   "stoich": {
+    "raw63": -2,
+    "fin63": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk66_3",
+   "v": 11,
+   "t": 3,
+   "stoich": {
+    "raw66": -2,
+    "fin66": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk66_4",
+   "v": 11,
+   "t": 4,
+   "stoich": {
+    "raw66": -2,
+    "fin66": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk66_5",
+   "v": 11,
+   "t": 5,
+   "stoich": {
+    "raw66": -2,
+    "fin66": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk69_3",
+   "v": 14,
+   "t": 3,
+   "stoich": {
+    "raw69": -2,
+    "fin69": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk69_4",
+   "v": 14,
+   "t": 4,
+   "stoich": {
+    "raw69": -2,
+    "fin69": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk69_5",
+   "v": 14,
+   "t": 5,
+   "stoich": {
+    "raw69": -2,
+    "fin69": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk72_3",
+   "v": 12,
+   "t": 3,
+   "stoich": {
+    "raw72": -2,
+    "fin72": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk72_4",
+   "v": 12,
+   "t": 4,
+   "stoich": {
+    "raw72": -2,
+    "fin72": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk72_5",
+   "v": 12,
+   "t": 5,
+   "stoich": {
+    "raw72": -2,
+    "fin72": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk75_3",
+   "v": 10,
+   "t": 3,
+   "stoich": {
+    "raw75": -2,
+    "fin75": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk75_4",
+   "v": 10,
+   "t": 4,
+   "stoich": {
+    "raw75": -2,
+    "fin75": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk75_5",
+   "v": 10,
+   "t": 5,
+   "stoich": {
+    "raw75": -2,
+    "fin75": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk78_3",
+   "v": 13,
+   "t": 3,
+   "stoich": {
+    "raw78": -2,
+    "fin78": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk78_4",
+   "v": 13,
+   "t": 4,
+   "stoich": {
+    "raw78": -2,
+    "fin78": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk78_5",
+   "v": 13,
+   "t": 5,
+   "stoich": {
+    "raw78": -2,
+    "fin78": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk81_3",
+   "v": 11,
+   "t": 3,
+   "stoich": {
+    "raw81": -2,
+    "fin81": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk81_4",
+   "v": 11,
+   "t": 4,
+   "stoich": {
+    "raw81": -2,
+    "fin81": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk81_5",
+   "v": 11,
+   "t": 5,
+   "stoich": {
+    "raw81": -2,
+    "fin81": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk84_3",
+   "v": 14,
+   "t": 3,
+   "stoich": {
+    "raw84": -2,
+    "fin84": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk84_4",
+   "v": 14,
+   "t": 4,
+   "stoich": {
+    "raw84": -2,
+    "fin84": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk84_5",
+   "v": 14,
+   "t": 5,
+   "stoich": {
+    "raw84": -2,
+    "fin84": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk87_3",
+   "v": 12,
+   "t": 3,
+   "stoich": {
+    "raw87": -2,
+    "fin87": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk87_4",
+   "v": 12,
+   "t": 4,
+   "stoich": {
+    "raw87": -2,
+    "fin87": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk87_5",
+   "v": 12,
+   "t": 5,
+   "stoich": {
+    "raw87": -2,
+    "fin87": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk90_3",
+   "v": 10,
+   "t": 3,
+   "stoich": {
+    "raw90": -2,
+    "fin90": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk90_4",
+   "v": 10,
+   "t": 4,
+   "stoich": {
+    "raw90": -2,
+    "fin90": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk90_5",
+   "v": 10,
+   "t": 5,
+   "stoich": {
+    "raw90": -2,
+    "fin90": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk93_3",
+   "v": 13,
+   "t": 3,
+   "stoich": {
+    "raw93": -2,
+    "fin93": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk93_4",
+   "v": 13,
+   "t": 4,
+   "stoich": {
+    "raw93": -2,
+    "fin93": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk93_5",
+   "v": 13,
+   "t": 5,
+   "stoich": {
+    "raw93": -2,
+    "fin93": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk96_3",
+   "v": 11,
+   "t": 3,
+   "stoich": {
+    "raw96": -2,
+    "fin96": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk96_4",
+   "v": 11,
+   "t": 4,
+   "stoich": {
+    "raw96": -2,
+    "fin96": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk96_5",
+   "v": 11,
+   "t": 5,
+   "stoich": {
+    "raw96": -2,
+    "fin96": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk99_3",
+   "v": 14,
+   "t": 3,
+   "stoich": {
+    "raw99": -2,
+    "fin99": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk99_4",
+   "v": 14,
+   "t": 4,
+   "stoich": {
+    "raw99": -2,
+    "fin99": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  },
+  {
+   "id": "mk99_5",
+   "v": 14,
+   "t": 5,
+   "stoich": {
+    "raw99": -2,
+    "fin99": 1
+   },
+   "cap": 1,
+   "cost": 2,
+   "resources": {
+    "labor": 1
+   }
+  }
+ ],
+ "resources": {
+  "labor": {
+   "cap": [
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40
+   ]
+  }
+ },
+ "warehouses": {}
+}
